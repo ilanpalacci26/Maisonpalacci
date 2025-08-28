@@ -19,7 +19,7 @@ const CATALOG_IMAGES = [
 ];
 
 const FORMULES = [
-  { title: "Sur-mesure", img: "https://images.unsplash.com/photo-1515734674582-29010bb37906?q=80&w=1600&auto=format&fit=crop", details: "Création unique, toile et essayages. Idéal pour une pièce iconique Maison Palacci." },
+  { title: "Sur-mesure", img: "https://image.unsplash.com/photo-1515734674582-29010bb37906?q=80&w=1600&auto=format&fit=crop", details: "Création unique, toile et essayages. Idéal pour une pièce iconique Maison Palacci." },
   { title: "Demi-mesure", img: "https://images.unsplash.com/photo-1516763299515-cf4bde41a4f2?q=80&w=1600&auto=format&fit=crop", details: "Base de collection adaptée à votre morphologie et votre style." },
   { title: "Retouches premium", img: "https://images.unsplash.com/photo-1520975693411-94f797bb3c1b?q=80&w=1600&auto=format&fit=crop", details: "Ajustements raffinés et finitions haute couture." },
 ];
