@@ -108,18 +108,36 @@ function Header() {
 // =====================
 function Hero() {
   return (
-    <section id="accueil" className="bg-gradient-to-b from-rose-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Élégance sur-mesure, esprit couture.</h1>
-          <p className="text-gray-600 mb-6">Maison Palacci conçoit des pièces uniques et intemporelles. Découvrez notre catalogue, nos formules, et contactez-nous pour un accompagnement personnalisé.</p>
-          <div className="flex gap-3">
-            <a href="#catalogue" className="px-5 py-3 rounded-2xl bg-gray-900 text-white hover:opacity-90">Voir le catalogue</a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl border border-gray-300 hover:bg-gray-50">WhatsApp</a>
+    <section
+      id="accueil"
+      className="min-h-[90vh] flex items-center bg-[#F6EEE9]"
+    >
+      <div className="max-w-6xl mx-auto px-4 w-full">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-black">
+            MAISON PALACCI
+          </h1>
+          <p className="mt-4 text-sm md:text-base text-black/70 tracking-wide">
+            ARTISANAL HAUTE COUTURE · JERUSALEM
+          </p>
+
+          {/* Boutons (optionnels) */}
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <a
+              href="#catalogue"
+              className="px-6 py-3 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition"
+            >
+              Découvrir le catalogue
+            </a>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-90 transition"
+            >
+              Book a consultation
+            </a>
           </div>
-        </div>
-        <div className="rounded-3xl overflow-hidden shadow-md border border-gray-200">
-          <img src="https://images.unsplash.com/photo-1516763299515-cf4bde41a4f2?q=80&w=1600&auto=format&fit=crop" alt="Maison Palacci hero" className="w-full h-full object-cover" />
         </div>
       </div>
     </section>
