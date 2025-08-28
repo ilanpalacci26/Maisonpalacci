@@ -78,9 +78,9 @@ function Header() {
   const [open, setOpen] = useState(false);
   const links = [
     { href: "#accueil", label: "Accueil" },
-    { href: "#catalogue", label: "Catalogue" },
-    { href: "#formules", label: "Nos formules" },
-    { href: "#recommandations", label: "Recommandations" },
+    { href: "#catalogue", label: "Galerie" },
+    { href: "#formules", label: "Nos offres" },
+    { href: "#recommandations", label: "avis" },
     { href: "#contact", label: "Contact" },
   ];
 
