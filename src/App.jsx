@@ -110,7 +110,7 @@ function Hero() {
   return (
     <section
       id="accueil"
-      className="min-h-[90vh] flex items-center bg-[#F6EEE9]"
+      className="min-h-[90vh] flex items-center"
     >
       <div className="max-w-6xl mx-auto px-4 w-full">
         <div className="text-center">
@@ -245,7 +245,7 @@ function WhatsAppFab() { return <a href={WHATSAPP_URL} target="_blank" rel="nore
 // =====================
 export default function App() {
   return (
-    <div className="text-gray-900">
+    <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
       <Hero />
       <CatalogueSection />
