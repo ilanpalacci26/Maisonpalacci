@@ -19,9 +19,34 @@ const CATALOG_IMAGES = [
 ];
 
 const FORMULES = [
-  { title: "Sur-mesure", img: "https://image.unsplash.com/photo-1515734674582-29010bb37906?q=80&w=1600&auto=format&fit=crop", details: "Création unique, toile et essayages. Idéal pour une pièce iconique Maison Palacci." },
-  { title: "Demi-mesure", img: "https://images.unsplash.com/photo-1516763299515-cf4bde41a4f2?q=80&w=1600&auto=format&fit=crop", details: "Base de collection adaptée à votre morphologie et votre style." },
-  { title: "Retouches premium", img: "https://images.unsplash.com/photo-1520975693411-94f797bb3c1b?q=80&w=1600&auto=format&fit=crop", details: "Ajustements raffinés et finitions haute couture." },
+  {
+    key: "custom_buy",
+    title: "Création personnalisée",
+    variant: "Achat",
+    details:
+      "Pièce conçue pour vous, propriété finale. Croquis, toile, essayages et finitions haute couture.",
+  },
+  {
+    key: "custom_rent",
+    title: "Création personnalisée",
+    variant: "Location",
+    details:
+      "Pièce sur-mesure pour l’événement, restitution après usage. Entretien et ajustements inclus.",
+  },
+  {
+    key: "demi_rent",
+    title: "Demi-mesure",
+    variant: "Location",
+    details:
+      "Modèle de collection ajusté à vos mesures pour la location. Idéal pour une soirée unique.",
+  },
+  {
+    key: "demi_buy",
+    title: "Demi-mesure",
+    variant: "Achat",
+    details:
+      "Base existante adaptée à votre morphologie, finitions personnalisées. Vous gardez la pièce.",
+  },
 ];
 
 const TESTIMONIALS = [
@@ -188,18 +213,63 @@ function Carousel() {
 // =====================
 function CatalogueSection() { return <section id="catalogue" className="max-w-6xl mx-auto px-4 py-14"><SectionTitle>Catalogue</SectionTitle><Card><Carousel /></Card></section>; }
 function FormulesSection() {
-  const [open, setOpen] = useState(null);
+  const [active, setActive] = useState(FORMULES[0].key);
+
+  // pour ouvrir WhatsApp avec la formule choisie
+  const selected = FORMULES.find(f => f.key === active);
+  const wa = `${WHATSAPP_URL}&text=${encodeURIComponent(
+    `Bonjour, je suis intéressé par: ${selected.title} — ${selected.variant}.`
+  )}`;
+
   return (
     <section id="formules" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Nos formules</SectionTitle>
-      <div className="grid md:grid-cols-3 gap-6">
-        {FORMULES.map((f, i) => (
-          <div key={i} onClick={() => setOpen(open === i ? null : i)} className="cursor-pointer">
-            <img src={f.img} alt={f.title} className="rounded-3xl h-64 w-full object-cover border" />
-            <h3 className="mt-3 font-semibold">{f.title}</h3>
-            {open === i && <p className="mt-2 text-sm text-gray-600">{f.details}</p>}
-          </div>
-        ))}
+
+      {/* Grille compacte: mobile 2x2, desktop 4 colonnes — sans grosses images */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        {FORMULES.map((f) => {
+          const isActive = active === f.key;
+          return (
+            <button
+              key={f.key}
+              onClick={() => setActive(f.key)}
+              className={[
+                "aspect-square rounded-2xl border text-left p-3 md:p-4",
+                "transition hover:shadow-sm",
+                isActive ? "border-black bg-black text-white" : "border-black/15 bg-transparent text-black"
+              ].join(" ")}
+              aria-pressed={isActive}
+            >
+              <span className="block text-xs uppercase tracking-wide opacity-70">
+                {f.title}
+              </span>
+              <span className="block mt-1 text-sm md:text-base font-semibold">
+                {f.variant}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Détail concis de l’option sélectionnée + CTA — reste compact sur mobile */}
+      <div className="mt-6 md:mt-8 max-w-3xl">
+        <h3 className="font-semibold text-black">
+          {selected.title} — {selected.variant}
+        </h3>
+        <p className="mt-2 text-sm text-black/70">{selected.details}</p>
+        <div className="mt-4 flex gap-3">
+          <a
+            href={wa}
+            target="_blank"
+            rel="noreferrer"
+            className="px-5 py-3 rounded-xl bg-black text-white hover:opacity-90"
+          >
+            Demander un devis sur WhatsApp
+          </a>
+          <a href="#catalogue" className="px-5 py-3 rounded-xl border border-black/20 hover:bg-black hover:text-white">
+            Voir le catalogue
+          </a>
+        </div>
       </div>
     </section>
   );
