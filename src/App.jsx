@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { MapPin, MessageCircle, Instagram } from "lucide-react";
 
 // =====================
 // Données du site
@@ -361,21 +362,55 @@ function RecommandationsSection() {
     </section>
   );
 }
-function ContactSection() {
+function ContactSection({ lang }) {
+  const waUrl = makeWhatsAppUrl({ lang, source: "contact", meta: { pageUrl: location.href } });
+
   return (
-    <section id="contact" className="max-w-6xl mx-auto px-4 py-14">
-      <SectionTitle>Contact</SectionTitle>
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <h3 className="font-semibold mb-2">WhatsApp</h3>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl bg-emerald-500 text-white">Ouvrir WhatsApp</a>
-          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6721</p>
-        </Card>
-        <Card>
-          <h3 className="font-semibold mb-2">Adresse</h3>
-          <a href={MAPS_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl border border-gray-300">Ouvrir dans Google Maps</a>
-        </Card>
+    <section id="contact" className="max-w-4xl mx-auto px-4 py-20 text-center">
+      <SectionTitle>{t("sections.contact", lang)}</SectionTitle>
+
+      {/* Adresse */}
+      <div className="flex items-center justify-center gap-2 mt-4 text-black/80">
+        <MapPin className="w-5 h-5 text-black/60" />
+        <span>{t("contact.address", lang)}</span>
       </div>
+
+     {/* Boutons */}
+<div className="mt-8 flex items-center justify-center gap-6">
+  {/* WhatsApp bouton circulaire */}
+  <a
+    href={waUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="flex items-center justify-center w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 transition"
+    aria-label="WhatsApp"
+  >
+    <MessageCircle className="w-7 h-7 text-white" />
+  </a>
+
+  {/* Instagram bouton circulaire */}
+  <a
+    href={INSTA_URL}
+    target="_blank"
+    rel="noreferrer"
+    className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 hover:opacity-90 transition"
+    aria-label="Instagram"
+  >
+    <Instagram className="w-7 h-7 text-white" />
+  </a>
+
+  {/* Google Maps bouton rectangulaire */}
+  <a
+    href={MAPS_URL}
+    target="_blank"
+    rel="noreferrer"
+    className="flex items-center gap-2 px-5 py-3 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition"
+  >
+    <MapPin className="w-5 h-5" />
+    {t("contact.maps", lang)}
+  </a>
+</div>
+    
     </section>
   );
 }
