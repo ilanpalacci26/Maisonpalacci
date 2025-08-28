@@ -4,9 +4,9 @@ import React, { useMemo, useState } from "react";
 // Données du site
 // =====================
 const CATALOG_IMAGES = [
-  { src: "galerie/dream1.jpeg", alt: "purple" },
-  { src: "galerie/dream2.jpeg", alt: "purple" },
-  { src: "galerie/purple1.jpeg", alt: "Table de coupe couture" },
+  { src: "Galerie/Dream1.jpeg", alt: "purple" },
+  { src: "Galerie/Dream2.jpeg", alt: "purple" },
+  { src: "Galerie/Purple1.jpeg", alt: "Table de coupe couture" },
   { src: "https://images.unsplash.com/photo-1520975842173-8b6835f2f1b4?q=80&w=1600&auto=format&fit=crop", alt: "Broderie main haute couture" },
   { src: "https://images.unsplash.com/photo-1542060747-8b8a9b5fbd69?q=80&w=1600&auto=format&fit=crop", alt: "Épingles et patron papier" },
   { src: "https://images.unsplash.com/photo-1520975962035-1282d8f7f1c1?q=80&w=1600&auto=format&fit=crop", alt: "Dentelle et perles" },
