@@ -49,20 +49,56 @@ function Card({ children }) {
 // Header
 // =====================
 function Header() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: "#accueil", label: "Accueil" },
+    { href: "#catalogue", label: "Catalogue" },
+    { href: "#formules", label: "Nos formules" },
+    { href: "#recommandations", label: "Recommandations" },
+    { href: "#contact", label: "Contact" },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b border-gray-200/60">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="text-xl md:text-2xl font-extrabold tracking-wide">
-          <span className="uppercase">MAISON</span> <span className="tracking-[0.3em]">PALACCI</span>
-        </div>
-        <nav className="hidden md:flex gap-6 text-sm">
-          <a href="#accueil" className="hover:opacity-70">Accueil</a>
-          <a href="#catalogue" className="hover:opacity-70">Catalogue</a>
-          <a href="#formules" className="hover:opacity-70">Nos formules</a>
-          <a href="#recommandations" className="hover:opacity-70">Recommandations</a>
-          <a href="#contact" className="hover:opacity-70">Contact</a>
+    <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="#accueil" className="text-lg md:text-xl font-semibold tracking-wide text-black">
+          MAISON <span className="tracking-[0.3em]">PALACCI</span>
+        </a>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm text-black">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="hover:opacity-70">{l.label}</a>
+          ))}
         </nav>
+
+        {/* Burger (mobile) */}
+        <button
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+        >
+          <span className="text-2xl leading-none">≡</span>
+        </button>
       </div>
+
+      {/* Mobile dropdown */}
+      {open && (
+        <div className="md:hidden border-t border-black/5 bg-[#F6EEE9]">
+          <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-black">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="py-1"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
