@@ -197,8 +197,8 @@ function SmartImage({ src, alt, eager = false }) {
           "transition-opacity",
           loaded ? "opacity-100" : "opacity-0",
           isPortrait
-            ? "max-h-[85vh] w-auto h-auto object-contain"
-            : "max-w-full h-auto object-contain"
+            ? "max-h-[60vh] w-auto h-auto object-contain"
+            : "max-h-[60vh] w-auto h-auto object-contain"
         ].join(" ")}
       />
     </div>
