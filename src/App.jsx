@@ -4,8 +4,8 @@ import React, { useMemo, useState } from "react";
 // Données du site
 // =====================
 const CATALOG_IMAGES = [
-  { src: "https://images.unsplash.com/photo-1516763299515-cf4bde41a4f2?q=80&w=1600&auto=format&fit=crop", alt: "Atelier couture — mannequin" },
-  { src: "https://images.unsplash.com/photo-1520975693411-94f797bb3c1b?q=80&w=1600&auto=format&fit=crop", alt: "Détails de tissu soie" },
+  { src: "https://drive.google.com/file/d/1KzkJVF0HfY7VmzG0UKMSoJQvCI7sUlVc/view?usp=drivesdk", alt: "purple" },
+  { src: "https://drive.google.com/file/d/1TVh49hp2ObBidXjZBt1OKk3WegVTj8Gp/view?usp=drivesdk", alt: "purple" },
   { src: "https://images.unsplash.com/photo-1542060748-10c28b62716d?q=80&w=1600&auto=format&fit=crop", alt: "Table de coupe couture" },
   { src: "https://images.unsplash.com/photo-1520975842173-8b6835f2f1b4?q=80&w=1600&auto=format&fit=crop", alt: "Broderie main haute couture" },
   { src: "https://images.unsplash.com/photo-1542060747-8b8a9b5fbd69?q=80&w=1600&auto=format&fit=crop", alt: "Épingles et patron papier" },
