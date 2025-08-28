@@ -4,11 +4,12 @@ import React, { useMemo, useState } from "react";
 // Données du site
 // =====================
 const CATALOG_IMAGES = [
-  { src: "/galerie/Dream1.jpeg", alt: "purple" },
-  { src: "/galerie/Dream2.jpeg", alt: "purple" },
-  { src: "/Galerie/Purple1.jpeg", alt: "Table de coupe couture" },
-  { src: "https://images.unsplash.com/photo-1520975842173-8b6835f2f1b4?q=80&w=1600&auto=format&fit=crop", alt: "Broderie main haute couture" },
-  { src: "https://images.unsplash.com/photo-1542060747-8b8a9b5fbd69?q=80&w=1600&auto=format&fit=crop", alt: "Épingles et patron papier" },
+  { src: "/galerie/Dream3.jpeg", alt: "Dream" }
+  { src: "/galerie/Dream1.jpeg", alt: "Dream" },
+  { src: "/galerie/Dream2.jpeg", alt: "Dream" },
+  { src: "/galerie/Purple1.jpeg", alt: "Purple" },
+  { src: "/galerie/Ocean1.jpeg", alt: "Purple" },
+  { src: "/galerie/Casual1.jpeg", alt: "Purple" },
   { src: "https://images.unsplash.com/photo-1520975962035-1282d8f7f1c1?q=80&w=1600&auto=format&fit=crop", alt: "Dentelle et perles" },
   { src: "https://images.unsplash.com/photo-1495401862217-02fa3a3dc639?q=80&w=1600&auto=format&fit=crop", alt: "Roulette et mètre ruban" },
   { src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop", alt: "Couturière au travail" },
