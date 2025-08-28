@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 // Données du site
 // =====================
 const CATALOG_IMAGES = [
-  { src: "/galerie/Dream3.jpeg", alt: "Dream" }
+  { src: "/galerie/Dream3.jpeg", alt: "Dream" },
   { src: "/galerie/Dream1.jpeg", alt: "Dream" },
   { src: "/galerie/Dream2.jpeg", alt: "Dream" },
   { src: "/galerie/Purple1.jpeg", alt: "Purple" },
