@@ -27,13 +27,7 @@ const FORMULES = [
     details:
       "Pièce sur-mesure pour l’événement, restitution après usage. Entretien et ajustements inclus.",
   },
-  {
-    key: "demi_rent",
-    title: "Demi-mesure",
-    variant: "Location",
-    details:
-      "Modèle de collection ajusté à vos mesures pour la location. Idéal pour une soirée unique.",
-  },
+
   {
     key: "demi_buy",
     title: "Demi-mesure",
@@ -41,6 +35,15 @@ const FORMULES = [
     details:
       "Base existante adaptée à votre morphologie, finitions personnalisées. Vous gardez la pièce.",
   },
+  
+  {
+    key: "demi_rent",
+    title: "Demi-mesure",
+    variant: "Location",
+    details:
+      "Modèle de collection ajusté à vos mesures pour la location. Idéal pour une soirée unique.",
+  },
+  
 ];
 
 const TESTIMONIALS = [
