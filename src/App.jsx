@@ -171,44 +171,119 @@ function Hero() {
 }
 
 // =====================
-// Lazy image + Carousel
+// smart image + Carousel
 // =====================
-function LazyImage({ src, alt }) {
+// Affiche toujours l'image entière, en s'adaptant au format (portrait/paysage)
+function SmartImage({ src, alt, eager = false }) {
   const [loaded, setLoaded] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(false);
+
   return (
-    <div className="w-full h-full relative">
-      {!loaded && <div className="absolute inset-0 bg-gray-100 animate-pulse" />}
-      <img src={src} alt={alt} loading="lazy" onLoad={() => setLoaded(true)} className={`w-full h-full object-cover transition-opacity ${loaded ? "opacity-100" : "opacity-0"}`} />
+    <div className="relative w-full flex items-center justify-center bg-black/[.03] rounded-3xl border border-black/10">
+      {/* Skeleton */}
+      {!loaded && <div className="absolute inset-0 animate-pulse bg-black/[.03] rounded-3xl" />}
+
+      <img
+        src={src}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        onLoad={(e) => {
+          const { naturalWidth, naturalHeight } = e.currentTarget;
+          setIsPortrait(naturalHeight > naturalWidth);
+          setLoaded(true);
+        }}
+        // Portrait : limité en hauteur ; Paysage : limité en largeur
+        className={[
+          "transition-opacity",
+          loaded ? "opacity-100" : "opacity-0",
+          isPortrait
+            ? "max-h-[85vh] w-auto h-auto object-contain"
+            : "max-w-full h-auto object-contain"
+        ].join(" ")}
+      />
     </div>
   );
 }
 function Carousel() {
   const [index, setIndex] = useState(0);
-  const last = CATALOG_IMAGES.length - 1;
-  const prev = () => setIndex(index === 0 ? last : index - 1);
-  const next = () => setIndex(index === last ? 0 : index + 1);
+  const total = CATALOG_IMAGES.length;
+
+  const go = (i) => setIndex((i + total) % total);
+  const prev = () => go(index - 1);
+  const next = () => go(index + 1);
+
   const current = CATALOG_IMAGES[index];
-  const prevIndex = index === 0 ? last : index - 1;
-  const nextIndex = index === last ? 0 : index + 1;
-  const preload = useMemo(() => [CATALOG_IMAGES[prevIndex], CATALOG_IMAGES[nextIndex]], [prevIndex, nextIndex]);
+  const prevIdx = (index - 1 + total) % total;
+  const nextIdx = (index + 1) % total;
 
   return (
     <div className="relative">
-      <div className="aspect-[16/9] w-full overflow-hidden rounded-3xl border border-gray-200 shadow-sm">
-        <LazyImage src={current.src} alt={current.alt} />
+      {/* Image principale — hauteur auto selon image (pas d'aspect forcé) */}
+      <div className="w-full flex justify-center">
+        <SmartImage src={current.src} alt={current.alt || `Image ${index + 1}`} eager />
       </div>
-      <div className="hidden">{preload.map((p, i) => (<img key={i} src={p.src} alt="" aria-hidden="true" />))}</div>
-      <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/80 border">‹</button>
-      <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/80 border">›</button>
-      <div className="mt-3 flex items-center justify-center gap-2">
-        {CATALOG_IMAGES.map((_, i) => (
-          <button key={i} onClick={() => setIndex(i)} className={`h-2 w-2 rounded-full ${i === index ? "bg-gray-900" : "bg-gray-300"}`} />
-        ))}
+
+      {/* Flèches */}
+      <button
+        aria-label="Précédent"
+        onClick={prev}
+        className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/70 text-white hover:bg-black"
+      >
+        ‹
+      </button>
+      <button
+        aria-label="Suivant"
+        onClick={next}
+        className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/70 text-white hover:bg-black"
+      >
+        ›
+      </button>
+
+      {/* Bandeau d’aperçus : AVANT / APRÈS (petit) + bullets */}
+      <div className="mt-3 grid grid-cols-3 gap-3 items-center">
+        {/* Avant */}
+        <button
+          onClick={prev}
+          className="w-full h-20 md:h-24 overflow-hidden rounded-xl border border-black/10 bg-white/40"
+          aria-label="Voir l’image précédente"
+          title="Précédent"
+        >
+          <img
+            src={CATALOG_IMAGES[prevIdx].src}
+            alt=""
+            className="w-full h-full object-cover opacity-80 hover:opacity-100"
+          />
+        </button>
+
+        {/* Bullets */}
+        <div className="flex items-center justify-center gap-2">
+          {CATALOG_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => go(i)}
+              aria-label={`Aller à l’image ${i + 1}`}
+              className={`h-2 w-2 rounded-full ${i === index ? "bg-black" : "bg-black/30"}`}
+            />
+          ))}
+        </div>
+
+        {/* Après */}
+        <button
+          onClick={next}
+          className="w-full h-20 md:h-24 overflow-hidden rounded-xl border border-black/10 bg-white/40"
+          aria-label="Voir l’image suivante"
+          title="Suivant"
+        >
+          <img
+            src={CATALOG_IMAGES[nextIdx].src}
+            alt=""
+            className="w-full h-full object-cover opacity-80 hover:opacity-100"
+          />
+        </button>
       </div>
     </div>
   );
 }
-
 // =====================
 // Sections
 // =====================
