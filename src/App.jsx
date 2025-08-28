@@ -9,14 +9,7 @@ const CATALOG_IMAGES = [
   { src: "/galerie/Dream2.jpeg", alt: "Dream" },
   { src: "/galerie/Purple1.jpeg", alt: "Purple" },
   { src: "/galerie/Ocean1.jpeg", alt: "Purple" },
-  { src: "/galerie/Casual1.jpeg", alt: "Purple" },
-  { src: "https://images.unsplash.com/photo-1520975962035-1282d8f7f1c1?q=80&w=1600&auto=format&fit=crop", alt: "Dentelle et perles" },
-  { src: "https://images.unsplash.com/photo-1495401862217-02fa3a3dc639?q=80&w=1600&auto=format&fit=crop", alt: "Roulette et mètre ruban" },
-  { src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop", alt: "Couturière au travail" },
-  { src: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1600&auto=format&fit=crop", alt: "Tissus suspendus pastel" },
-  { src: "https://images.unsplash.com/photo-1520975693411-7f3bd1ca03d1?q=80&w=1600&auto=format&fit=crop", alt: "Silhouette robe en toile" },
-  { src: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1600&auto=format&fit=crop", alt: "Aiguilles et bobines" },
-  { src: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop", alt: "Tissus plissés" }
+  { src: "/galerie/Casual1.jpeg", alt: "Purple" }
 ];
 
 const FORMULES = [
