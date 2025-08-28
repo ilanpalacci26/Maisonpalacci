@@ -143,7 +143,7 @@ function Hero() {
             MAISON PALACCI
           </h1>
           <p className="mt-4 text-sm md:text-base text-black/70 tracking-wide">
-            ARTISANAL HAUTE COUTURE · JERUSALEM
+           SUR-MESURE • ROBE DE MARIÉE - ROBE DE SOIRÉE • JERUSALEM
           </p>
 
           {/* Boutons (optionnels) */}
