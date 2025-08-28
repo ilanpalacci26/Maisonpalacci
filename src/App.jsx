@@ -160,7 +160,7 @@ function Hero() {
               rel="noreferrer"
               className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-90 transition"
             >
-              Book a consultation
+              Prendre un rendez-vous
             </a>
           </div>
         </div>
