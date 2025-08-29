@@ -1,34 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { MapPin, MessageCircle, Instagram } from "lucide-react";
-
-
-// Icône WhatsApp (SVG)
-function IconWhatsApp({ className = "w-7 h-7" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.54 4.08 1.49 5.8L0 24l6.35-1.66A11.94 11.94 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22a9.96 9.96 0 01-5.08-1.39l-.36-.21-3.77.99.99-3.77-.21-.36A9.96 9.96 0 012 12C2 6.49 6.49 2 12 2s10 4.49 10 10-4.49 10-10 10zm5.2-7.2c-.29-.15-1.7-.84-1.96-.93-.26-.1-.45-.15-.64.15-.19.3-.74.93-.9 1.12-.17.2-.33.22-.62.07-.29-.15-1.23-.45-2.35-1.44-.87-.77-1.45-1.72-1.62-2-.17-.3 0-.46.14-.61.14-.14.3-.37.45-.56.15-.19.2-.33.3-.55.1-.22.05-.41-.02-.56-.07-.15-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.37-.26.3-1 1-1 2.44s1.03 2.83 1.17 3.03c.15.2 2.03 3.1 4.91 4.34.69.3 1.22.48 1.64.62.69.22 1.32.19 1.82.12.56-.08 1.7-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z" />
-    </svg>
-  );
-}
-
-// Icône Instagram (SVG)
-function IconInstagram({ className = "w-7 h-7" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H7zm5 3a5 5 0 110 10 5 5 0 010-10zm0 2.2A2.8 2.8 0 1014.8 12 2.8 2.8 0 0012 9.2zM17.5 6.75a1.25 1.25 0 11-1.25 1.25 1.25 1.25 0 011.25-1.25z" />
-    </svg>
-  );
-}
-
-// Icône épingle (MapPin) (SVG)
-function IconMapPin({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1114.5 9 2.5 2.5 0 0112 11.5z" />
-    </svg>
-  );
-}
-
 
 // =====================
 // Données du site
@@ -391,55 +361,21 @@ function RecommandationsSection() {
     </section>
   );
 }
-function ContactSection({ lang }) {
-  const waUrl = makeWhatsAppUrl({ lang, source: "contact", meta: { pageUrl: location.href } });
-
+function ContactSection() {
   return (
-    <section id="contact" className="max-w-4xl mx-auto px-4 py-20 text-center">
-      <SectionTitle>{t("sections.contact", lang)}</SectionTitle>
-
-      {/* Adresse */}
-      <div className="flex items-center justify-center gap-2 mt-4 text-black/80">
-        <MapPin className="w-5 h-5 text-black/60" />
-        <span>{t("contact.address", lang)}</span>
+    <section id="contact" className="max-w-6xl mx-auto px-4 py-14">
+      <SectionTitle>Contact</SectionTitle>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card>
+          <h3 className="font-semibold mb-2">WhatsApp</h3>
+          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl bg-emerald-500 text-white">Ouvrir WhatsApp</a>
+          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6721</p>
+        </Card>
+        <Card>
+          <h3 className="font-semibold mb-2">Adresse</h3>
+          <a href={MAPS_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl border border-gray-300">Ouvrir dans Google Maps</a>
+        </Card>
       </div>
-
-     {/* Boutons */}
-<div className="mt-8 flex items-center justify-center gap-6">
-  {/* WhatsApp bouton circulaire */}
-  <a
-    href={waUrl}
-    target="_blank"
-    rel="noreferrer"
-    className="flex items-center justify-center w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 transition"
-    aria-label="WhatsApp"
-  >
-    <MessageCircle className="w-7 h-7 text-white" />
-  </a>
-
-  {/* Instagram bouton circulaire */}
-  <a
-    href={INSTA_URL}
-    target="_blank"
-    rel="noreferrer"
-    className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 hover:opacity-90 transition"
-    aria-label="Instagram"
-  >
-    <Instagram className="w-7 h-7 text-white" />
-  </a>
-
-  {/* Google Maps bouton rectangulaire */}
-  <a
-    href={MAPS_URL}
-    target="_blank"
-    rel="noreferrer"
-    className="flex items-center gap-2 px-5 py-3 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition"
-  >
-    <MapPin className="w-5 h-5" />
-    {t("contact.maps", lang)}
-  </a>
-</div>
-    
     </section>
   );
 }
