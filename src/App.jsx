@@ -18,14 +18,14 @@ const FORMULES = [
     title: "Création personnalisée",
     variant: "Achat",
     details:
-      "Pièce conçue pour vous, propriété finale. Croquis, toile, essayages et finitions haute couture.",
+      "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous gardez.",
   },
   {
     key: "custom_rent",
     title: "Création personnalisée",
     variant: "Location",
     details:
-      "Pièce sur-mesure pour l’événement, restitution après usage. Entretien et ajustements inclus.",
+      "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous porterez pour une unqiue occasion.",
   },
 
   {
@@ -33,7 +33,7 @@ const FORMULES = [
     title: "Demi-mesure",
     variant: "Achat",
     details:
-      "Base existante adaptée à votre morphologie, finitions personnalisées. Vous gardez la pièce.",
+      "Choisissez votre modèle coup de coeur parmi nos créations uniques tout en l'adaptant à vos mensurations.",
   },
   
   {
@@ -41,7 +41,7 @@ const FORMULES = [
     title: "Demi-mesure",
     variant: "Location",
     details:
-      "Modèle de collection ajusté à vos mesures pour la location. Idéal pour une soirée unique.",
+      "Choisissez votre modèle coup de coeur parmi nos créations uniques en l'adaptant à vos mensurations, profitez en pour une occasion d'un soir.",
   },
   
 ];
@@ -52,8 +52,8 @@ const TESTIMONIALS = [
   { quote: "Du croquis au dernier essayage, un accompagnement très professionnel.", author: "Léa K." },
 ];
 
-const WHATSAPP_INTL = "972587786721";
-const WHATSAPP_MESSAGE = encodeURIComponent("Bonjour, je souhaite une recommandation et plus de détails sur vos créations.");
+const WHATSAPP_INTL = "972587786722";
+const WHATSAPP_MESSAGE = encodeURIComponent("Bonjour, je serais ravie d’avoir plus de détails sur vos créations et vos conseils.");
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_INTL}?text=${WHATSAPP_MESSAGE}`;
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("3 David Pinkas")}`;
 
