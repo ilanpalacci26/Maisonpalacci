@@ -362,20 +362,95 @@ function RecommandationsSection() {
   );
 }
 function ContactSection() {
+  // Message WhatsApp pré-rempli en français
+  const msg = encodeURIComponent(
+    "Bonjour, je serais ravie d’avoir plus de détails sur vos créations et vos conseils personnalisés, et je vous remercie par avance de me recontacter."
+  );
+  const waUrl = `https://wa.me/${WHATSAPP_INTL}?text=${msg}`;
+
   return (
-    <section id="contact" className="max-w-6xl mx-auto px-4 py-14">
-      <SectionTitle>Contact</SectionTitle>
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <h3 className="font-semibold mb-2">WhatsApp</h3>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl bg-emerald-500 text-white">Ouvrir WhatsApp</a>
-          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6721</p>
-        </Card>
-        <Card>
-          <h3 className="font-semibold mb-2">Adresse</h3>
-          <a href={MAPS_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl border border-gray-300">Ouvrir dans Google Maps</a>
-        </Card>
+    <section id="contact" className="max-w-6xl mx-auto px-4 py-20">
+      {/* Titre + sous-titre */}
+      <div className="text-center">
+        <SectionTitle>Contact</SectionTitle>
+        <p className="text-sm md:text-base text-black/70">
+          Nous revenons vers vous rapidement — par WhatsApp, sur Instagram ou à l’atelier.
+        </p>
       </div>
+
+      {/* Grille pro : Adresse / WhatsApp / Instagram */}
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        {/* Bloc Adresse */}
+        <div className="text-center md:text-left">
+          <div className="flex md:inline-flex items-center justify-center md:justify-start gap-2 text-black">
+            <IconMapPin className="w-5 h-5 text-black/70" />
+            <span className="font-medium">3 David Pinkas — Jérusalem</span>
+          </div>
+          <div className="mt-4">
+            <a
+              href={MAPS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40"
+            >
+              <IconMapPin className="w-5 h-5" />
+              Ouvrir dans Google Maps
+            </a>
+          </div>
+          <p className="mt-3 text-xs text-black/50">Stationnement à proximité</p>
+        </div>
+
+        {/* Bloc WhatsApp */}
+        <div className="text-center">
+          <div className="flex items-center justify-center">
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+              className="flex items-center justify-center w-16 h-16 rounded-full bg-green-500 hover:bg-green-600 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700"
+            >
+              <IconWhatsApp className="w-8 h-8 text-white" />
+              <span className="sr-only">WhatsApp</span>
+            </a>
+          </div>
+          <div className="mt-4">
+            <p className="text-sm font-medium">WhatsApp — réponse rapide</p>
+            <p className="text-xs text-black/60 mt-1">
+              Message pré-rempli pour un premier échange
+            </p>
+          </div>
+        </div>
+
+        {/* Bloc Instagram */}
+        <div className="text-center">
+          <div className="flex items-center justify-center">
+            <a
+              href={INSTA_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              title="Instagram"
+              className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 hover:opacity-90 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-700"
+            >
+              <IconInstagram className="w-8 h-8 text-white" />
+              <span className="sr-only">Instagram</span>
+            </a>
+          </div>
+          <div className="mt-4">
+            <p className="text-sm font-medium">Suivez notre univers</p>
+            <p className="text-xs text-black/60 mt-1">
+              Actualités, coulisses de l’atelier, nouveautés
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Ligne de réassurance */}
+      <p className="mt-10 text-center text-xs text-black/50">
+        Messages lus quotidiennement — réponse rapide.
+      </p>
     </section>
   );
 }
