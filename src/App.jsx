@@ -75,8 +75,8 @@ function Header() {
   const links = [
     { href: "#accueil", label: "Accueil" },
     { href: "#catalogue", label: "Galerie" },
-    { href: "#formules", label: "Nos offres" },
-    { href: "#recommandations", label: "avis" },
+    { href: "#formules", label: "Nos formules" },
+    { href: "#recommandations", label: "Avis" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -348,7 +348,7 @@ function FormulesSection() {
 }
 function RecommandationsSection() {
   return (
-    <section id="recommandations" className="max-w-6xl mx-auto px-4 py-14">
+    <section id="Nos clientes ont aimé" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Recommandations</SectionTitle>
       <div className="grid md:grid-cols-3 gap-6">
         {TESTIMONIALS.map((t, idx) => (
