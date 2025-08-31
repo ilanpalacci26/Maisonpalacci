@@ -311,6 +311,7 @@ function FormulesSection() {
               onClick={() => setActive(f.key)}
               className={[
                 "aspect-square rounded-2xl border text-left p-3 md:p-4",
+                  "h-[calc(100vh/15)] w-full",
                 "transition hover:shadow-sm",
                 isActive ? "border-black bg-black text-white" : "border-black/15 bg-transparent text-black"
               ].join(" ")}
@@ -365,19 +366,92 @@ function RecommandationsSection() {
     </section>
   );
 }function ContactSection() {
+  // Petites icônes locales (SVG inline, aucune dépendance)
+  const IconPin = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className || "w-5 h-5"} fill="currentColor" aria-hidden="true">
+      <path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1114.5 9 2.5 2.5 0 0112 11.5z"/>
+    </svg>
+  );
+  const IconPhone = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className || "w-5 h-5"} fill="currentColor" aria-hidden="true">
+      <path d="M6.6 10.8a15.7 15.7 0 006.6 6.6l2.2-2.2a1.5 1.5 0 011.6-.35c1.1.44 2.3.67 3.5.67a1.5 1.5 0 011.5 1.5V20a2 2 0 01-2 2C10.7 22 2 13.3 2 3.5A2 2 0 014 2h2.98A1.5 1.5 0 018.5 3.5c0 1.2.23 2.4.67 3.5.2.54.07 1.15-.35 1.57L6.6 10.8z"/>
+    </svg>
+  );
+  const IconMail = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className || "w-5 h-5"} fill="currentColor" aria-hidden="true">
+      <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 3.2l-8 5-8-5V6l8 5 8-5v1.2z"/>
+    </svg>
+  );
+
+  // Affichages utiles
+  const phoneDisplay = "058 778 6722"; // s'affiche tel quel
+  const telHref = `tel:${phoneDisplay.replace(/[^0-9+]/g, "")}`;
+
   return (
     <section id="contact" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Contact</SectionTitle>
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <h3 className="font-semibold mb-2">WhatsApp</h3>
-          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl bg-emerald-500 text-white">Ouvrir WhatsApp</a>
-          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6722</p>
-        </Card>
-        <Card>
-          <h3 className="font-semibold mb-2">Adresse</h3>
-          <a href={MAPS_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl border border-gray-300">Ouvrir dans Google Maps</a>
-        </Card>
+
+      {/* Grande "carte" pastel en 3 colonnes */}
+      <div className="rounded-2xl border border-gray-200/70 bg-white/70 backdrop-blur px-6 md:px-10 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Colonne 1 — Présentation */}
+          <div>
+            <h3 className="text-lg font-semibold">MAISON PALACCI</h3>
+            <p className="text-black/60 mt-1">Artisanal Haute Couture</p>
+            <p className="text-sm text-black/70 leading-relaxed mt-4">
+              Studio de couture spécialisé en robes de mariée et de soirée sur-mesure.
+              Accompagnement personnalisé, finitions main et exigence haute couture.
+            </p>
+          </div>
+
+          {/* Colonne 2 — Coordonnées avec icônes */}
+          <div>
+            <h4 className="font-medium text-black mb-2">Contactez-nous</h4>
+            <ul className="text-sm text-black/80">
+              <li className="py-1.5">
+                <a href={MAPS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:underline">
+                  <IconPin className="w-5 h-5 text-black/70" />
+                  <span>3 David Pinkas — Jérusalem</span>
+                </a>
+              </li>
+              <li className="py-1.5">
+                <a href={telHref} className="inline-flex items-center gap-2 hover:underline">
+                  <IconPhone className="w-5 h-5 text-black/70" />
+                  <span>{phoneDisplay}</span>
+                </a>
+              </li>
+              <li className="py-1.5">
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 hover:underline">
+                  {/* On réutilise l’icône téléphone pour rester minimaliste */}
+                  <IconPhone className="w-5 h-5 text-black/70" />
+                  <span>WhatsApp — réponse rapide</span>
+                </a>
+              </li>
+              {/* Décommente si tu veux afficher un email plus tard
+              <li className="py-1.5">
+                <a href="mailto:contact@maisonpalacci.com" className="inline-flex items-center gap-2 hover:underline">
+                  <IconMail className="w-5 h-5 text-black/70" />
+                  <span>contact@maisonpalacci.com</span>
+                </a>
+              </li>
+              */}
+            </ul>
+          </div>
+
+          {/* Colonne 3 — Navigation interne */}
+          <div>
+            <h4 className="font-medium text-black mb-2">Navigation</h4>
+            <ul className="text-sm text-black/80">
+              <li className="py-1.5"><a href="#accueil" className="hover:underline">Accueil</a></li>
+              <li className="py-1.5"><a href="#formules" className="hover:underline">Nos formules</a></li>
+              <li className="py-1.5"><a href="#recommandations" className="hover:underline">Avis</a></li>
+              <li className="py-1.5"><a href="#contact" className="hover:underline">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Ligne de note en bas du bloc */}
+        <p className="mt-8 text-xs text-black/50">Sur rendez-vous uniquement.</p>
       </div>
     </section>
   );
