@@ -55,8 +55,7 @@ const TESTIMONIALS = [
 const WHATSAPP_INTL = "972587786722";
 const WHATSAPP_MESSAGE = encodeURIComponent("Bonjour, je serais ravie d’avoir plus de détails sur vos créations et vos conseils.");
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_INTL}?text=${WHATSAPP_MESSAGE}`;
-const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("3 David Pinkas")}`;
-
+const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("3 David Pinkas, Jérusalem")}`;
 // =====================
 // Composants utilitaires
 // =====================
@@ -310,8 +309,10 @@ function FormulesSection() {
               key={f.key}
               onClick={() => setActive(f.key)}
               className={[
-                "aspect-square rounded-2xl border text-left p-3 md:p-4",
-                  "h-[calc(100vh/15)] w-full",
+                "aspect-square rounded-2xl border text-left p-3 md:p-4", 
+                "h-[calc(100vh/15)] min-h-[68px] w-full",  // ratio + garde-fou mobile
+                "flex flex-col justify-center gap-0.5",     // centrage vertical
+                "overflow-hidden leading-tight",
                 "transition hover:shadow-sm",
                 isActive ? "border-black bg-black text-white" : "border-black/15 bg-transparent text-black"
               ].join(" ")}
