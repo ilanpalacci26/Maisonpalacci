@@ -83,8 +83,10 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <a href="#accueil" className="text-lg md:text-xl font-semibold tracking-wide text-black">
-          MAISON <span className="tracking-[0.3em]">PALACCI</span>
+        <a
+  href="#accueil"
+  className="text-xl md:text-2xl font-semibold text-black font-[Cormorant_Garamond] tracking-[0.15em]"
+        > MAISON PALACCI
         </a>
 
         {/* Desktop nav */}
