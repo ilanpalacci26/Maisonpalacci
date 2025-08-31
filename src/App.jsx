@@ -173,27 +173,31 @@ function Hero() {
 // =====================
 // Affiche toujours l'image entière, en s'adaptant au format (portrait/paysage)
 // Cadre uniforme (même taille/ratio) + image jamais rognée
+// Cadre uniforme (max 3/5 de la page) + image jamais rognée
 function SmartImage({ src, alt, eager = false }) {
   return (
     <div
       className="
         relative mx-auto
         w-full max-w-[720px]
-        aspect-[4/5]                   /* ratio commun à toutes les images */
+        aspect-[4/5]                   /* ratio uniforme */
+        max-h-[60vh]                   /* max 3/5 de la page */
         rounded-3xl overflow-hidden
         border border-black/10
         bg-black/[.03]
+        flex items-center justify-center
       "
     >
       <img
         src={src}
         alt={alt}
         loading={eager ? 'eager' : 'lazy'}
-        className="w-full h-full object-contain" /* pas de rognage */
+        className="max-h-full max-w-full object-contain"
       />
     </div>
   );
 }
+
 function Carousel() {
   const [index, setIndex] = useState(0);
   const total = CATALOG_IMAGES.length;
@@ -208,7 +212,7 @@ function Carousel() {
 
   return (
     <div className="relative">
-      {/* Image principale – cadre uniforme, jamais rognée */}
+      {/* Image principale */}
       <div className="w-full flex justify-center">
         <SmartImage
           src={current.src}
@@ -233,16 +237,12 @@ function Carousel() {
         ›
       </button>
 
-      {/* Bandeau : vignette précédente / bullets / vignette suivante */}
+      {/* Bandeau d’aperçus */}
       <div className="mt-4 grid grid-cols-3 gap-3 items-center">
         {/* Vignette précédente */}
         <button
           onClick={prev}
-          className="
-            w-full aspect-[4/5]
-            overflow-hidden rounded-xl
-            border border-black/10 bg-white/40
-          "
+          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl border border-black/10 bg-white/40"
           aria-label="Voir l’image précédente"
           title="Précédent"
         >
@@ -253,7 +253,7 @@ function Carousel() {
           />
         </button>
 
-        {/* Bullets au centre */}
+        {/* Bullets */}
         <div className="flex items-center justify-center gap-2">
           {CATALOG_IMAGES.map((_, i) => (
             <button
@@ -270,11 +270,7 @@ function Carousel() {
         {/* Vignette suivante */}
         <button
           onClick={next}
-          className="
-            w-full aspect-[4/5]
-            overflow-hidden rounded-xl
-            border border-black/10 bg-white/40
-          "
+          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl border border-black/10 bg-white/40"
           aria-label="Voir l’image suivante"
           title="Suivant"
         >
