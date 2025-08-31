@@ -10,7 +10,6 @@ const CATALOG_IMAGES = [
   { src: "/galerie/Dream2.jpeg", alt: "Dream" },
    { src: "/galerie/Empire1.jpeg", alt: "Empire" },
    { src: "/galerie/Empire2.jpeg", alt: "Empire" },
-   { src: "/galerie/Empire3.jpeg", alt: "Empire" },
   { src: "/galerie/Purple1.jpeg", alt: "Purple" },
    { src: "/galerie/Purple2.jpeg", alt: "Purple" },
   { src: "/galerie/Ocean1.jpeg", alt: "Purple" },
@@ -483,51 +482,119 @@ function OnePageApp() {
   );
 }
 /* ===== Page /catalogue (grille tabloïdes, même style visuel) ===== */
+/* ===== Page /catalogue avec Lightbox ===== */
 function CataloguePage() {
-  // on réutilise les mêmes images que ton carrousel
-  const items = CATALOG_IMAGES;
+  const items = CATALOG_IMAGES; // on réutilise tes images
+  const [openIndex, setOpenIndex] = useState(null); // null = fermé
+
+  // Navigation dans le lightbox
+  const prev = () =>
+    setOpenIndex((i) => (i === null ? null : (i - 1 + items.length) % items.length));
+  const next = () =>
+    setOpenIndex((i) => (i === null ? null : (i + 1) % items.length));
+  const close = () => setOpenIndex(null);
+
+  // ESC / flèches clavier + verrouillage du scroll en arrière-plan
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (openIndex === null) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    // lock scroll
+    if (openIndex !== null) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        window.removeEventListener("keydown", onKey);
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openIndex]);
 
   return (
     <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
-      {/* petit header minimal cohérent avec ton site */}
-      <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <a href="/" className="text-xl md:text-2xl font-semibold text-black font-[Cormorant_Garamond] tracking-[0.15em]">
-            MAISON PALACCI
-          </a>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-black">
-            <a href="/" className="hover:opacity-70">Accueil</a>
-            <a href="/catalogue" className="hover:opacity-70">Catalogue</a>
-            <a href="/#contact" className="hover:opacity-70">Contact</a>
-          </nav>
-        </div>
-      </header>
-
+      <Header />
       <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Catalogue complet</h1>
-
-        {/* Filtres (si plus tard tu veux Mariée/Soirée, on les ajoutera ici) */}
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">
+          Catalogue complet
+        </h1>
 
         {/* Grille tabloïdes : cadres identiques, images non rognées */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {items.map((img, i) => (
-            <div
+            <button
               key={i}
-              className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03]"
+              type="button"
+              onClick={() => setOpenIndex(i)}
+              className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03] focus:outline-none focus:ring-2 focus:ring-black/30"
+              aria-label={`Agrandir l’image ${i + 1}`}
             >
-              <img src={img.src} alt={img.alt || `Image ${i + 1}`} className="w-full h-full object-contain" loading="lazy" />
-            </div>
+              <img
+                src={img.src}
+                alt={img.alt || `Image ${i + 1}`}
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            </button>
           ))}
         </div>
       </main>
+      <Footer />
+      <WhatsAppFab />
 
-      <footer className="mt-20 py-10 text-center text-xs text-black/60">
-        © {new Date().getFullYear()} MAISON PALACCI • Haute couture — Jerusalem
-      </footer>
+      {/* Lightbox */}
+      {openIndex !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[999] bg-black/70 flex items-center justify-center p-4"
+          onClick={close} // clic sur le fond = fermer
+        >
+          {/* Contenu (stoppe la propagation pour éviter fermeture) */}
+          <div
+            className="relative max-w-[90vw] max-h-[90vh] w-full md:w-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={items[openIndex].src}
+              alt={items[openIndex].alt || `Image ${openIndex + 1}`}
+              className="max-w-full max-h-[90vh] object-contain rounded-2xl border border-black/20 bg-black/[.03]"
+            />
+
+            {/* Bouton fermer */}
+            <button
+              onClick={close}
+              aria-label="Fermer"
+              className="absolute -top-3 -right-3 md:top-2 md:right-2 h-10 w-10 rounded-full bg-black text-white hover:opacity-90"
+            >
+              ×
+            </button>
+
+            {/* Flèches */}
+            <button
+              onClick={prev}
+              aria-label="Précédent"
+              className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90"
+            >
+              ‹
+            </button>
+            <button
+              onClick={next}
+              aria-label="Suivant"
+              className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
 /* ===== Router : on sert ta one-page à "/" et la nouvelle page à "/catalogue" ===== */
 export default function App() {
   return (
