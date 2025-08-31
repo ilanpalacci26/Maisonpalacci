@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 // =====================
 // Données du site
@@ -151,7 +152,7 @@ function Hero() {
           {/* Boutons (optionnels) */}
           <div className="mt-8 flex items-center justify-center gap-4">
             <a
-              href="#catalogue"
+              href="/catalogue"
               className="px-6 py-3 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition"
             >
               Découvrir le catalogue
@@ -467,7 +468,7 @@ function WhatsAppFab() { return <a href={WHATSAPP_URL} target="_blank" rel="nore
 // =====================
 // App
 // =====================
-export default function App() {
+function OnePageApp App() {
   return (
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
@@ -481,3 +482,60 @@ export default function App() {
     </div>
   );
 }
+/* ===== Page /catalogue (grille tabloïdes, même style visuel) ===== */
+function CataloguePage() {
+  // on réutilise les mêmes images que ton carrousel
+  const items = CATALOG_IMAGES;
+
+  return (
+    <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
+      {/* petit header minimal cohérent avec ton site */}
+      <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <a href="/" className="text-xl md:text-2xl font-semibold text-black font-[Cormorant_Garamond] tracking-[0.15em]">
+            MAISON PALACCI
+          </a>
+          <nav className="hidden md:flex items-center gap-6 text-sm text-black">
+            <a href="/" className="hover:opacity-70">Accueil</a>
+            <a href="/catalogue" className="hover:opacity-70">Catalogue</a>
+            <a href="/#contact" className="hover:opacity-70">Contact</a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 py-10">
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Catalogue complet</h1>
+
+        {/* Filtres (si plus tard tu veux Mariée/Soirée, on les ajoutera ici) */}
+
+        {/* Grille tabloïdes : cadres identiques, images non rognées */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          {items.map((img, i) => (
+            <div
+              key={i}
+              className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03]"
+            >
+              <img src={img.src} alt={img.alt || `Image ${i + 1}`} className="w-full h-full object-contain" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <footer className="mt-20 py-10 text-center text-xs text-black/60">
+        © {new Date().getFullYear()} MAISON PALACCI • Haute couture — Jerusalem
+      </footer>
+    </div>
+  );
+}
+
+/* ===== Router : on sert ta one-page à "/" et la nouvelle page à "/catalogue" ===== */
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<OnePageApp />} />
+      <Route path="/catalogue" element={<CataloguePage />} />
+      <Route path="*" element={<OnePageApp />} />
+    </Routes>
+  );
+}
+
