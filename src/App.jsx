@@ -15,17 +15,17 @@ const CATALOG_IMAGES = [
 const FORMULES = [
   {
     key: "custom_buy",
-    title: "Création personnalisée",
+    title: "Création sûr-mesure",
     variant: "Achat",
     details:
       "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous gardez.",
   },
   {
     key: "custom_rent",
-    title: "Création personnalisée",
+    title: "sûr-mesure",
     variant: "Location",
     details:
-      "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous porterez pour une unqiue occasion.",
+      "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous porterez pour une unique occasion.",
   },
 
   {
@@ -353,7 +353,7 @@ function FormulesSection() {
 function RecommandationsSection() {
   return (
     <section id="Nos clientes ont aimé" className="max-w-6xl mx-auto px-4 py-14">
-      <SectionTitle>Recommandations</SectionTitle>
+      <SectionTitle>Nos clientes ont aimé</SectionTitle>
       <div className="grid md:grid-cols-3 gap-6">
         {TESTIMONIALS.map((t, idx) => (
           <Card key={idx}>
@@ -372,7 +372,7 @@ function RecommandationsSection() {
         <Card>
           <h3 className="font-semibold mb-2">WhatsApp</h3>
           <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="px-5 py-3 rounded-2xl bg-emerald-500 text-white">Ouvrir WhatsApp</a>
-          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6721</p>
+          <p className="mt-2 text-sm text-gray-500">Numéro : 058 778 6722</p>
         </Card>
         <Card>
           <h3 className="font-semibold mb-2">Adresse</h3>
@@ -382,7 +382,7 @@ function RecommandationsSection() {
     </section>
   );
 }
-function Footer() { return <footer className="border-t"><div className="max-w-6xl mx-auto px-4 py-10 text-center text-xs text-gray-500">© {new Date().getFullYear()} MAISON PALACCI • Haute couture — Tel-Aviv</div></footer>; }
+function Footer() { return <footer className="border-t"><div className="max-w-6xl mx-auto px-4 py-10 text-center text-xs text-gray-500">© {new Date().getFullYear()} MAISON PALACCI • Haute couture — Jerusalem</div></footer>; }
 function WhatsAppFab() { return <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 rounded-full px-5 py-3 bg-emerald-500 text-white shadow-lg">WhatsApp</a>; }
 
 // =====================
