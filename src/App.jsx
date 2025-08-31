@@ -15,14 +15,14 @@ const CATALOG_IMAGES = [
 const FORMULES = [
   {
     key: "custom_buy",
-    title: "Création sûr-mesure",
+    title: "Création sur-mesure",
     variant: "Achat",
     details:
       "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous gardez.",
   },
   {
     key: "custom_rent",
-    title: "sûr-mesure",
+    title: "sur-mesure",
     variant: "Location",
     details:
       "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous porterez pour une unique occasion.",
