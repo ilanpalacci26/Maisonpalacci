@@ -468,7 +468,7 @@ function WhatsAppFab() { return <a href={WHATSAPP_URL} target="_blank" rel="nore
 // =====================
 // App
 // =====================
-function OnePageApp App() {
+function OnePageApp() {
   return (
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
