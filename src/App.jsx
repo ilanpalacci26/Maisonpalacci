@@ -172,32 +172,24 @@ function Hero() {
 // smart image + Carousel
 // =====================
 // Affiche toujours l'image entière, en s'adaptant au format (portrait/paysage)
+// Cadre uniforme (même taille/ratio) + image jamais rognée
 function SmartImage({ src, alt, eager = false }) {
-  const [loaded, setLoaded] = useState(false);
-  const [isPortrait, setIsPortrait] = useState(false);
-
   return (
-    <div className="relative w-full flex items-center justify-center bg-black/[.03] rounded-3xl border border-black/10">
-      {/* Skeleton */}
-      {!loaded && <div className="absolute inset-0 animate-pulse bg-black/[.03] rounded-3xl" />}
-
+    <div
+      className="
+        relative mx-auto
+        w-full max-w-[720px]
+        aspect-[4/5]                   /* ratio commun à toutes les images */
+        rounded-3xl overflow-hidden
+        border border-black/10
+        bg-black/[.03]
+      "
+    >
       <img
         src={src}
         alt={alt}
-        loading={eager ? "eager" : "lazy"}
-        onLoad={(e) => {
-          const { naturalWidth, naturalHeight } = e.currentTarget;
-          setIsPortrait(naturalHeight > naturalWidth);
-          setLoaded(true);
-        }}
-        // Portrait : limité en hauteur ; Paysage : limité en largeur
-        className={[
-          "transition-opacity",
-          loaded ? "opacity-100" : "opacity-0",
-          isPortrait
-            ? "max-h-[60vh] w-auto h-auto object-contain"
-            : "max-h-[60vh] w-auto h-auto object-contain"
-        ].join(" ")}
+        loading={eager ? 'eager' : 'lazy'}
+        className="w-full h-full object-contain" /* pas de rognage */
       />
     </div>
   );
@@ -206,7 +198,7 @@ function Carousel() {
   const [index, setIndex] = useState(0);
   const total = CATALOG_IMAGES.length;
 
-  const go = (i) => setIndex((i + total) % total);
+  const go   = (i) => setIndex((i + total) % total);
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
@@ -216,9 +208,13 @@ function Carousel() {
 
   return (
     <div className="relative">
-      {/* Image principale — hauteur auto selon image (pas d'aspect forcé) */}
+      {/* Image principale – cadre uniforme, jamais rognée */}
       <div className="w-full flex justify-center">
-        <SmartImage src={current.src} alt={current.alt || `Image ${index + 1}`} eager />
+        <SmartImage
+          src={current.src}
+          alt={current.alt || `Image ${index + 1}`}
+          eager
+        />
       </div>
 
       {/* Flèches */}
@@ -237,45 +233,55 @@ function Carousel() {
         ›
       </button>
 
-      {/* Bandeau d’aperçus : AVANT / APRÈS (petit) + bullets */}
-      <div className="mt-3 grid grid-cols-3 gap-3 items-center">
-        {/* Avant */}
+      {/* Bandeau : vignette précédente / bullets / vignette suivante */}
+      <div className="mt-4 grid grid-cols-3 gap-3 items-center">
+        {/* Vignette précédente */}
         <button
           onClick={prev}
-          className="w-full h-20 md:h-24 overflow-hidden rounded-xl border border-black/10 bg-white/40"
+          className="
+            w-full aspect-[4/5]
+            overflow-hidden rounded-xl
+            border border-black/10 bg-white/40
+          "
           aria-label="Voir l’image précédente"
           title="Précédent"
         >
           <img
             src={CATALOG_IMAGES[prevIdx].src}
             alt=""
-            className="w-full h-full object-cover opacity-80 hover:opacity-100"
+            className="w-full h-full object-contain"
           />
         </button>
 
-        {/* Bullets */}
+        {/* Bullets au centre */}
         <div className="flex items-center justify-center gap-2">
           {CATALOG_IMAGES.map((_, i) => (
             <button
               key={i}
               onClick={() => go(i)}
               aria-label={`Aller à l’image ${i + 1}`}
-              className={`h-2 w-2 rounded-full ${i === index ? "bg-black" : "bg-black/30"}`}
+              className={`h-2.5 w-2.5 rounded-full transition ${
+                i === index ? "bg-black" : "bg-black/30"
+              }`}
             />
           ))}
         </div>
 
-        {/* Après */}
+        {/* Vignette suivante */}
         <button
           onClick={next}
-          className="w-full h-20 md:h-24 overflow-hidden rounded-xl border border-black/10 bg-white/40"
+          className="
+            w-full aspect-[4/5]
+            overflow-hidden rounded-xl
+            border border-black/10 bg-white/40
+          "
           aria-label="Voir l’image suivante"
           title="Suivant"
         >
           <img
             src={CATALOG_IMAGES[nextIdx].src}
             alt=""
-            className="w-full h-full object-cover opacity-80 hover:opacity-100"
+            className="w-full h-full object-contain"
           />
         </button>
       </div>
