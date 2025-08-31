@@ -7,7 +7,11 @@ const CATALOG_IMAGES = [
   { src: "/galerie/Dream3.jpeg", alt: "Dream" },
   { src: "/galerie/Dream1.jpeg", alt: "Dream" },
   { src: "/galerie/Dream2.jpeg", alt: "Dream" },
+   { src: "/galerie/Empire1.jpeg", alt: "Empire" },
+   { src: "/galerie/Empire2.jpeg", alt: "Empire" },
+   { src: "/galerie/Empire3.jpeg", alt: "Empire" },
   { src: "/galerie/Purple1.jpeg", alt: "Purple" },
+   { src: "/galerie/Purple2.jpeg", alt: "Purple" },
   { src: "/galerie/Ocean1.jpeg", alt: "Purple" },
   { src: "/galerie/Casual1.jpeg", alt: "Purple" }
 ];
