@@ -150,21 +150,23 @@ function Hero() {
 
           {/* Boutons (optionnels) */}
           <div className="mt-8 flex items-center justify-center gap-4">
-            <a
-              href="/catalogue"
-              className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black hover:opacity-90 transition" 
-            >
-              Découvrir le catalogue
-            </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
-            >
-              Prendre un rendez-vous
-            </a>
-          </div>
+  <a
+    href="/catalogue"
+    className="px-6 py-3 rounded-xl border border-[#E5D0C5] text-black
+               hover:bg-[#E5D0C5] transition-colors duration-300 ease-in-out"
+  >
+    Découvrir le catalogue
+  </a>
+  <a
+    href={WHATSAPP_URL}
+    target="_blank"
+    rel="noreferrer"
+    className="px-6 py-3 rounded-xl border border-[#E5D0C5] text-black
+               hover:bg-[#E5D0C5] transition-colors duration-300 ease-in-out"
+  >
+    Prendre un rendez-vous
+  </a>
+</div>
         </div>
       </div>
     </section>
