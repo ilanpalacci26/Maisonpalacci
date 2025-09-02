@@ -290,7 +290,7 @@ function Carousel() {
 // =====================
 // Sections
 // =====================
-function CatalogueSection() { return <section id="catalogue" className="max-w-6xl mx-auto px-4 py-14"><SectionTitle>Catalogue</SectionTitle><Card><Carousel /></Card></section>; }
+function CatalogueSection() { return <section id="catalogue" className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Catalogue</SectionTitle><Card><Carousel /></Card></section>; }
 function FormulesSection() {
   const [active, setActive] = useState(FORMULES[0].key);
 
