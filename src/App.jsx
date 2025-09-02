@@ -318,7 +318,9 @@ function FormulesSection() {
                 "flex flex-col justify-center gap-0.5",     // centrage vertical
                 "overflow-hidden leading-tight",
                 "transition hover:shadow-sm",
-                isActive ? "border-black bg-black text-white" : "border-black/15 bg-transparent text-black"
+                isActive
+  ? "border border-[#E5D0C5] bg-[#E5D0C5] text-black"
+  : "border border-black/15 bg-transparent text-black"
               ].join(" ")}
               aria-pressed={isActive}
             >
