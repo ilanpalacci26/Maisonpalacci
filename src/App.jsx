@@ -228,14 +228,14 @@ function Carousel() {
       <button
         aria-label="Précédent"
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/70 text-white hover:bg-black"
+        className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
       >
         ‹
       </button>
       <button
         aria-label="Suivant"
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/70 text-white hover:bg-black"
+        className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
       >
         ›
       </button>
@@ -346,11 +346,11 @@ function FormulesSection() {
             href={wa}
             target="_blank"
             rel="noreferrer"
-            className="px-5 py-3 rounded-xl bg-black text-white hover:opacity-90"
+            className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
           >
             Demander un devis sur WhatsApp
           </a>
-          <a href="/catalogue" className="px-5 py-3 rounded-xl border border-black/20 hover:bg-black hover:text-white">
+          <a href="/catalogue" className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
             Voir le catalogue
           </a>
         </div>
@@ -571,7 +571,7 @@ function CataloguePage() {
             <button
               onClick={close}
               aria-label="Fermer"
-              className="absolute -top-3 -right-3 md:top-2 md:right-2 h-10 w-10 rounded-full bg-black text-white hover:opacity-90"
+              className="absolute -top-3 -right-3 md:top-2 md:right-2 h-10 w-10 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
             >
               ×
             </button>
@@ -580,14 +580,14 @@ function CataloguePage() {
             <button
               onClick={prev}
               aria-label="Précédent"
-              className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90"
+              className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
             >
               ‹
             </button>
             <button
               onClick={next}
               aria-label="Suivant"
-              className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90"
+              className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
             >
               ›
             </button>
