@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 // =====================
 // Données du site
@@ -75,28 +76,41 @@ function Card({ children }) {
 // =====================
 function Header() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // si on est sur /catalogue, on doit renvoyer vers "/#section"
+  const base = pathname === "/catalogue" ? "/#" : "#";
+
   const links = [
-    { href: "#accueil", label: "Accueil" },
-    { href: "#catalogue", label: "Galerie" },
-    { href: "#formules", label: "Nos formules" },
-    { href: "#recommandations", label: "Avis" },
-    { href: "#contact", label: "Contact" },
+    { href: `${base}accueil`, label: "Accueil" },
+    // la page galerie est la route /catalogue
+    { href: "/catalogue", label: "Galerie", route: true },
+    { href: `${base}formules`, label: "Nos formules" },
+    { href: `${base}recommandations`, label: "Avis" },
+    { href: `${base}contact`, label: "Contact" },
   ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <a
-  href="#accueil"
-  className="text-xl md:text-2xl font-normal text-black font-[Cormorant_Garamond] tracking-[0.15em]"
-        > MAISON PALACCI
-        </a>
+        {/* Logo renvoie toujours à la home */}
+        <Link to="/" className="text-xl md:text-2xl font-normal text-black tracking-[0.15em]">
+          MAISON PALACCI
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm text-black">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="hover:opacity-70">{l.label}</a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link key={l.label} to={l.href} className="hover:opacity-70">
+                {l.label}
+              </Link>
+            ) : (
+              <a key={l.label} href={l.href} className="hover:opacity-70">
+                {l.label}
+              </a>
+            )
+          )}
         </nav>
 
         {/* Burger (mobile) */}
@@ -113,23 +127,23 @@ function Header() {
       {open && (
         <div className="md:hidden border-t border-black/5 bg-[#F6EEE9]">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-black">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="py-1"
-                onClick={() => setOpen(false)}
-              >
-                {l.label}
-              </a>
-            ))}
+            {links.map((l) =>
+              l.route ? (
+                <Link key={l.label} to={l.href} className="py-1" onClick={() => setOpen(false)}>
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} className="py-1" onClick={() => setOpen(false)}>
+                  {l.label}
+                </a>
+              )
+            )}
           </nav>
         </div>
       )}
     </header>
   );
 }
-
 // =====================
 // Hero
 // =====================
