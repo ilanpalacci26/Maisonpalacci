@@ -152,7 +152,7 @@ function Hero() {
           <div className="mt-8 flex items-center justify-center gap-4">
             <a
               href="/catalogue"
-              className="px-6 py-3 rounded-xl border border-black/20 text-black hover:bg-black hover:text-white transition"
+              className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black hover:opacity-90 transition" 
             >
               Découvrir le catalogue
             </a>
@@ -160,7 +160,7 @@ function Hero() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-90 transition"
+              className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
             >
               Prendre un rendez-vous
             </a>
@@ -292,7 +292,7 @@ function Carousel() {
 // =====================
 function CatalogueSection() { return <section id="catalogue" className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Catalogue</SectionTitle><Carousel /></section>; }
 function FormulesSection() {
-  const [active, setActive] = useState(FORMULES[0].key);
+  const [active, setActive] = useState(null);
 
   // pour ouvrir WhatsApp avec la formule choisie
   const selected = FORMULES.find(f => f.key === active);
