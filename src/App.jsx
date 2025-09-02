@@ -65,7 +65,21 @@ const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 // Composants utilitaires
 // =====================
 function SectionTitle({ children, id }) {
-  return <h2 id={id} className="text-2xl md:text-3xl font-normal mb-6 tracking-tight">{children}</h2>;
+  return (
+    <h2
+      id={id}
+      className="
+        text-lg md:text-xl           /* plus petit */
+        font-light                   /* finesse */
+        tracking-[0.25em]            /* espace entre lettres */
+        uppercase                    /* optionnel si tu veux TOUT en capitales */
+        mb-8
+        text-black/80
+      "
+    >
+      {children}
+    </h2>
+  );
 }
 function Card({ children }) {
   return <div className="rounded-2xl border border-gray-200/70 bg-white/70 backdrop-blur p-6 shadow-sm">{children}</div>;
