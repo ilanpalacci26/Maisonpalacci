@@ -10,7 +10,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ===== Police globale Didot (Playfair Display) ===== */
+/* Police globale Didot (Playfair Display) */
 body {
   @apply font-didot;
 }
