@@ -349,7 +349,7 @@ function FormulesSection() {
               )}`}
               target="_blank"
               rel="noreferrer"
-              className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:bg-[#D9BFB2]"
+              className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:bg-[#E5D0C5]"
             >
               Demander un devis sur WhatsApp
             </a>
