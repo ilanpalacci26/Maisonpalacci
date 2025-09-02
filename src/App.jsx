@@ -187,7 +187,7 @@ function SmartImage({ src, alt, eager = false }) {
         max-h-[60vh]                   /* max 3/5 de la page */
         rounded-3xl overflow-hidden
         border border-black/10
-        bg-black/[.03]
+        bg-[#F6EEE9]
         flex items-center justify-center
       "
     >
