@@ -412,24 +412,26 @@ function RecommandationsSection() {
     <section id="recommandations" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Nos clientes ont aimé</SectionTitle>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* 1 carte par ligne */}
+      <div className="grid grid-cols-1 gap-4">
         {TESTIMONIALS.map((t, idx) => (
           <div
             key={idx}
             className="
-              rounded-2xl 
-              bg-[#E5D0C5]/60 
-              backdrop-blur-sm 
-              p-6 
-              text-base 
-              leading-relaxed 
-              shadow-md
-              transition 
-              hover:shadow-lg
+              rounded-2xl
+              bg-[#E5D0C5]/35
+              backdrop-blur-sm
+              px-5 py-4
+              shadow-sm
+              border border-[#E5D0C5]/60
+              max-h-[calc(100vh/13)]
+              overflow-hidden
             "
           >
-            <p className="italic text-black/80">“{t.quote}”</p>
-            <p className="mt-3 text-sm text-black/60 text-right">— {t.author}</p>
+            <p className="italic text-black/80 leading-snug">
+              “{t.quote}”
+            </p>
+            <p className="mt-1 text-xs text-black/60">— {t.author}</p>
           </div>
         ))}
       </div>
