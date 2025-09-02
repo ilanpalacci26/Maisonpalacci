@@ -288,7 +288,7 @@ function Carousel() {
         {/* Vignette précédente */}
         <button
           onClick={prev}
-          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl border border-black/10 bg-[#F6EEE9]/40"
+          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl bg-[#F6EEE9]/40"
           aria-label="Voir l’image précédente"
           title="Précédent"
         >
@@ -316,7 +316,7 @@ function Carousel() {
         {/* Vignette suivante */}
         <button
           onClick={next}
-          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl border border-black/10 bg-[#F6EEE9]/40"
+          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl /10 bg-[#F6EEE9]/40"
           aria-label="Voir l’image suivante"
           title="Suivant"
         >
