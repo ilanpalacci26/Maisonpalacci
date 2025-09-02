@@ -350,7 +350,7 @@ function FormulesSection() {
           >
             Demander un devis sur WhatsApp
           </a>
-          <a href="/catalogue" className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
+          <a href="/catalogue" className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition">
             Voir le catalogue
           </a>
         </div>
