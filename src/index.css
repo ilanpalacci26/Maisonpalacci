@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root { height: 100%; }
+html, body, #root {
+  height: 100%;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Police globale Didot (Playfair Display) ===== */
+body {
+  @apply font-didot;
+}
