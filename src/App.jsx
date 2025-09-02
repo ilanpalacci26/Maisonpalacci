@@ -155,12 +155,22 @@ function Hero() {
     >
       <div className="max-w-6xl mx-auto px-4 w-full">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-black">
-            MAISON PALACCI
-          </h1>
-          <p className="mt-4 text-sm md:text-base text-black/70 tracking-wide">
-           SUR-MESURE • ROBE DE MARIÉE - ROBE DE SOIRÉE • JERUSALEM
-          </p>
+          <h1
+  className="
+    font-light tracking-[0.15em] text-black whitespace-nowrap
+    text-[clamp(1.8rem,6vw,4rem)]
+  "
+>
+  MAISON PALACCI
+</h1>
+          <p
+  className="
+    mt-4 text-black/70 tracking-wide whitespace-nowrap
+    text-[clamp(0.8rem,3vw,1.2rem)]
+  "
+>
+  SUR-MESURE • ROBE DE MARIÉE • ROBE DE SOIRÉE • JERUSALEM
+</p>
 
           {/* Boutons (optionnels) */}
           <div className="mt-8 flex items-center justify-center gap-4">
