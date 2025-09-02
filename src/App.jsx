@@ -64,7 +64,7 @@ const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 // Composants utilitaires
 // =====================
 function SectionTitle({ children, id }) {
-  return <h2 id={id} className="text-2xl md:text-3xl font-semibold mb-6 tracking-tight">{children}</h2>;
+  return <h2 id={id} className="text-2xl md:text-3xl font-normal mb-6 tracking-tight">{children}</h2>;
 }
 function Card({ children }) {
   return <div className="rounded-2xl border border-gray-200/70 bg-white/70 backdrop-blur p-6 shadow-sm">{children}</div>;
@@ -88,7 +88,7 @@ function Header() {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <a
   href="#accueil"
-  className="text-xl md:text-2xl font-semibold text-black font-[Cormorant_Garamond] tracking-[0.15em]"
+  className="text-xl md:text-2xl font-normal text-black font-[Cormorant_Garamond] tracking-[0.15em]"
         > MAISON PALACCI
         </a>
 
@@ -403,7 +403,7 @@ function RecommandationsSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Colonne 1 — Présentation */}
           <div>
-            <h3 className="text-lg font-semibold">MAISON PALACCI</h3>
+            <h3 className="text-lg font-normal">MAISON PALACCI</h3>
             <p className="text-black/60 mt-1">Artisanal Haute Couture</p>
             <p className="text-sm text-black/70 leading-relaxed mt-4">
               Studio de couture spécialisé en robes de mariée et de soirée sur-mesure.
@@ -521,7 +521,7 @@ function CataloguePage() {
     <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">
+        <h1 className="text-2xl md:text-3xl font-normal tracking-tight mb-6">
           Catalogue complet
         </h1>
 
