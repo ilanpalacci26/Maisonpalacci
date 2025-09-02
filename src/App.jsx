@@ -292,19 +292,17 @@ function Carousel() {
 // =====================
 function CatalogueSection() { return <section id="catalogue" className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Catalogue</SectionTitle><Carousel /></section>; }
 function FormulesSection() {
+  // aucune sélection par défaut
   const [active, setActive] = useState(null);
 
-  // pour ouvrir WhatsApp avec la formule choisie
-  const selected = FORMULES.find(f => f.key === active);
-  const wa = `${WHATSAPP_URL}&text=${encodeURIComponent(
-    `Bonjour, je suis intéressé par: ${selected.title} — ${selected.variant}.`
-  )}`;
+  // formule choisie (ou undefined si rien)
+  const selected = FORMULES.find((f) => f.key === active);
 
   return (
     <section id="formules" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Nos formules</SectionTitle>
 
-      {/* Grille compacte: mobile 2x2, desktop 4 colonnes — sans grosses images */}
+      {/* Grille compacte : mobile 2x2, desktop 4 colonnes */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         {FORMULES.map((f) => {
           const isActive = active === f.key;
@@ -312,22 +310,21 @@ function FormulesSection() {
             <button
               key={f.key}
               onClick={() => setActive(f.key)}
-              className={[
-                "aspect-square rounded-2xl border text-left p-3 md:p-4", 
-                "h-[calc(100vh/15)] min-h-[68px] w-full",  // ratio + garde-fou mobile
-                "flex flex-col justify-center gap-0.5",     // centrage vertical
-                "overflow-hidden leading-tight",
-                "transition hover:shadow-sm",
-                isActive
-  ? "border border-[#E5D0C5] bg-[#E5D0C5] text-black"
-  : "border border-black/15 bg-transparent text-black"
-              ].join(" ")}
               aria-pressed={isActive}
+              className={[
+                "w-full rounded-2xl border text-left p-3 md:p-4",
+                "h-[calc(100vh/15)] min-h-[72px]",             // ~1/15 d'écran, garde-fou mobile
+                "flex flex-col justify-center gap-0.5 leading-tight",
+                "transition-colors duration-300 ease-in-out",
+                isActive
+                  ? "border-[#E5D0C5] bg-[#E5D0C5] text-black shadow-sm"
+                  : "border-black/15 bg-transparent text-black hover:bg-black/[.03]"
+              ].join(" ")}
             >
               <span className="block text-xs uppercase tracking-wide opacity-70">
                 {f.title}
               </span>
-              <span className="block mt-1 text-sm md:text-base font-semibold">
+              <span className="block mt-1 text-sm md:text-base font-normal">
                 {f.variant}
               </span>
             </button>
@@ -335,26 +332,35 @@ function FormulesSection() {
         })}
       </div>
 
-      {/* Détail concis de l’option sélectionnée + CTA — reste compact sur mobile */}
-      <div className="mt-6 md:mt-8 max-w-3xl">
-        <h3 className="font-semibold text-black">
-          {selected.title} — {selected.variant}
-        </h3>
-        <p className="mt-2 text-sm text-black/70">{selected.details}</p>
-        <div className="mt-4 flex gap-3">
-          <a
-            href={wa}
-            target="_blank"
-            rel="noreferrer"
-            className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
-          >
-            Demander un devis sur WhatsApp
-          </a>
-          <a href="/catalogue" className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition">
-            Voir le catalogue
-          </a>
+      {/* Détails + CTA : affichés uniquement après sélection */}
+      {selected && (
+        <div className="mt-6 md:mt-8 max-w-3xl">
+          <h3 className="font-normal text-black">
+            {selected.title} — {selected.variant}
+          </h3>
+          <p className="mt-2 text-sm text-black/70">{selected.details}</p>
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href={`${WHATSAPP_URL}&text=${encodeURIComponent(
+                `Bonjour, je suis intéressé par: ${selected.title} — ${selected.variant}.`
+              )}`}
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:bg-[#D9BFB2]"
+            >
+              Demander un devis sur WhatsApp
+            </a>
+
+            <a
+              href="/catalogue"
+              className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:bg-[#E5D0C5]"
+            >
+              Voir le catalogue
+            </a>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
