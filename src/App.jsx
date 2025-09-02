@@ -409,14 +409,26 @@ function FormulesSection() {
 }
 function RecommandationsSection() {
   return (
-    <section id="Nos clientes ont aimé" className="max-w-6xl mx-auto px-4 py-14">
+    <section id="recommandations" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Nos clientes ont aimé</SectionTitle>
+
       <div className="grid md:grid-cols-3 gap-6">
         {TESTIMONIALS.map((t, idx) => (
-          <Card key={idx}>
-            <p className="italic">“{t.quote}”</p>
-            <p className="mt-3 text-sm text-gray-500">— {t.author}</p>
-          </Card>
+          <div
+            key={idx}
+            className="
+              rounded-2xl 
+              bg-white/40 
+              backdrop-blur-sm 
+              p-5 
+              text-sm 
+              leading-relaxed 
+              shadow-sm
+            "
+          >
+            <p className="italic text-black/80">“{t.quote}”</p>
+            <p className="mt-2 text-xs text-black/60">— {t.author}</p>
+          </div>
         ))}
       </div>
     </section>
