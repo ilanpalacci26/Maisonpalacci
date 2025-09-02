@@ -4,3 +4,13 @@ export default {
   theme: { extend: {} },
   plugins: [],
 };
+
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        didot: ['"Playfair Display"', 'serif'],
+      },
+    },
+  },
+};
