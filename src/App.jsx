@@ -412,27 +412,30 @@ function RecommandationsSection() {
     <section id="recommandations" className="max-w-6xl mx-auto px-4 py-14">
       <SectionTitle>Nos clientes ont aimé</SectionTitle>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {TESTIMONIALS.map((t, idx) => (
           <div
             key={idx}
             className="
               rounded-2xl 
-              bg-white/40 
+              bg-[#E5D0C5]/60 
               backdrop-blur-sm 
-              p-5 
-              text-sm 
+              p-6 
+              text-base 
               leading-relaxed 
-              shadow-sm
+              shadow-md
+              transition 
+              hover:shadow-lg
             "
           >
             <p className="italic text-black/80">“{t.quote}”</p>
-            <p className="mt-2 text-xs text-black/60">— {t.author}</p>
+            <p className="mt-3 text-sm text-black/60 text-right">— {t.author}</p>
           </div>
         ))}
       </div>
     </section>
   );
+}
 }function ContactSection() {
   // Petites icônes locales (SVG inline, aucune dépendance)
   const IconPin = (p) => (
