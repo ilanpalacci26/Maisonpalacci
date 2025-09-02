@@ -436,7 +436,7 @@ function RecommandationsSection() {
     </section>
   );
 }
-}function ContactSection() {
+function ContactSection() {
   // Petites icônes locales (SVG inline, aucune dépendance)
   const IconPin = (p) => (
     <svg viewBox="0 0 24 24" className={p.className || "w-5 h-5"} fill="currentColor" aria-hidden="true">
