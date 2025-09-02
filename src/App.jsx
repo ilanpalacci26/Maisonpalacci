@@ -27,7 +27,7 @@ const FORMULES = [
   },
   {
     key: "custom_rent",
-    title: "sur-mesure",
+    title: "Création sur-mesure",
     variant: "Location",
     details:
       "Conçue spécialement pour vous, du croquis jusqu'à sa réalisation: une création unique que vous porterez pour une unique occasion.",
@@ -426,10 +426,10 @@ function RecommandationsSection() {
           {/* Colonne 1 — Présentation */}
           <div>
             <h3 className="text-lg font-normal">MAISON PALACCI</h3>
-            <p className="text-black/60 mt-1">Artisanal Haute Couture</p>
+            <p className="text-black/60 mt-1">Finition Haute Couture</p>
             <p className="text-sm text-black/70 leading-relaxed mt-4">
-              Studio de couture spécialisé en robes de mariée et de soirée sur-mesure.
-              Accompagnement personnalisé, finitions main et exigence haute couture.
+              Maison de couture spécialisé en robes de mariée et de soirée sur-mesure.
+              Accompagnement personnalisé, finitions et exigence haute couture.
             </p>
           </div>
 
