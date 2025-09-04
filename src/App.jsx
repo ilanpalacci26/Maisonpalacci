@@ -166,59 +166,34 @@ function Header() {
 // =====================
 function Hero() {
   return (
-    <section id="accueil" className="min-h-[80vh] flex items-center">
+    <section
+      id="accueil"
+      className="min-h-[90vh] flex items-center"
+    >
       <div className="max-w-6xl mx-auto px-4 w-full">
         <div className="text-center">
-          {/* Titre : toujours sur une ligne mais taille adaptative */}
-          <h1
-            className="
-              font-light tracking-[0.15em] text-black whitespace-nowrap
-              text-[clamp(1.6rem,7vw,4rem)]
-            "
-          >
+          <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-black">
             MAISON PALACCI
           </h1>
 
-          {/* Description : wrap autorisé sur petit écran, 1 ligne dès md */}
-          <p
-            className="
-              mt-3 md:mt-4 text-black/70 tracking-wide
-              whitespace-normal md:whitespace-nowrap
-              text-[clamp(0.9rem,3vw,1.15rem)]
-              px-2
-            "
-          >
+          {/* Sous-titre plus petit */}
+          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase">
             SUR-MESURE • ROBE DE MARIÉE • ROBE DE SOIRÉE • JERUSALEM
           </p>
 
-          {/* Boutons : compacts sur mobile, tailles qui s'adaptent */}
-          <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-3 md:gap-4">
+          {/* Boutons */}
+          <div className="mt-8 flex items-center justify-center gap-4">
             <a
               href="/catalogue"
-              className="
-                inline-flex items-center justify-center rounded-xl
-                border border-[#E5D0C5] text-black
-                px-4 py-2 md:px-6 md:py-3
-                text-[clamp(0.9rem,3.2vw,1rem)]
-                transition-colors duration-300 ease-in-out
-                hover:bg-[#E5D0C5]
-              "
+              className="px-6 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
             >
               Découvrir le catalogue
             </a>
-
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="
-                inline-flex items-center justify-center rounded-xl
-                border border-[#E5D0C5] text-black
-                px-4 py-2 md:px-6 md:py-3
-                text-[clamp(0.9rem,3.2vw,1rem)]
-                transition-colors duration-300 ease-in-out
-                hover:bg-[#E5D0C5]
-              "
+              className="px-6 py-3 rounded-xl bg-[#E5D0C5] text-black hover:opacity-90 transition"
             >
               Prendre un rendez-vous
             </a>
