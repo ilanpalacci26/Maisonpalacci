@@ -250,7 +250,7 @@ function Carousel() {
   const total = CATALOG_IMAGES.length;
 
   const go = (i) => {
-    if (!trackRef.current) return;
+    if (!trackRef.current || total === 0) return;
     const clamped = (i + total) % total;
     const el = trackRef.current.children[clamped];
     if (el) {
@@ -262,7 +262,7 @@ function Carousel() {
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
-  // Met à jour l’index pendant le scroll (pour les bullets)
+  // Met à jour l’index pendant le scroll pour les bullets
   React.useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -270,7 +270,6 @@ function Carousel() {
     const onScroll = () => {
       const children = Array.from(track.children);
       if (!children.length) return;
-      // trouve la carte la plus centrée
       const mid = track.scrollLeft + track.clientWidth / 2;
       let best = 0, bestDist = Infinity;
       children.forEach((c, i) => {
@@ -285,16 +284,19 @@ function Carousel() {
     return () => track.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (total === 0) {
+    return <div className="text-sm text-black/60">Catalogue à venir…</div>;
+  }
+
   return (
     <div className="relative">
-      {/* Piste horizontale */}
+      {/* Piste horizontale : une seule ligne, défilement fluide */}
       <div
         ref={trackRef}
         className="
           flex gap-4 overflow-x-auto scroll-smooth
           snap-x snap-mandatory
-          bg-[#F6EEE9] rounded-3xl p-4
-          border border-black/10
+          rounded-3xl p-2 md:p-3
           [&::-webkit-scrollbar]:hidden
           [-ms-overflow-style:'none'] [scrollbar-width:'none']
         "
@@ -304,22 +306,23 @@ function Carousel() {
             key={i}
             className="
               snap-center shrink-0
-              basis-[80%] sm:basis-[60%] md:basis-[45%] lg:basis-[35%] xl:basis-[28%]
+              basis-[82%] sm:basis-[62%] md:basis-[46%] lg:basis-[34%] xl:basis-[28%]
             "
+            onClick={() => go(i)}
           >
+            {/* Cadre rose, sans bordure ni ombre */}
             <div
               className="
-                aspect-[4/5] rounded-2xl overflow-hidden
-                border border-black/10 bg-white/40
+                aspect-[4/5] rounded-2xl
+                bg-[#F6EEE9]
                 flex items-center justify-center
               "
             >
               <img
                 src={img.src}
                 alt={img.alt || `Image ${i + 1}`}
-                className="max-h-full max-w-full object-contain"
+                className="max-h-[92%] max-w-[92%] object-contain"
                 loading={i < 2 ? "eager" : "lazy"}
-                onClick={() => go(i)} // clic pour recentrer
               />
             </div>
           </div>
