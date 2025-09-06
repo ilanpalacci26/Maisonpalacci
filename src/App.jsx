@@ -199,7 +199,7 @@ function Hero() {
               href="/catalogue"
               className="px-6 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
             >
-              Découvrir le catalogue
+              Découvrir la galerie
             </a>
             <a
               href={WHATSAPP_URL}
@@ -334,7 +334,7 @@ function Carousel() {
 // =====================
 // Sections
 // =====================
-function CatalogueSection() { return <section id="catalogue" className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Catalogue</SectionTitle><Carousel /></section>; }
+function CatalogueSection() { return <section id="catalogue" className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Galerie</SectionTitle><Carousel /></section>; }
 function FormulesSection() {
   // aucune sélection par défaut
   const [active, setActive] = useState(null);
@@ -400,7 +400,7 @@ function FormulesSection() {
               href="/catalogue"
               className="px-5 py-3 rounded-xl border border-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:bg-[#E5D0C5]"
             >
-              Voir le catalogue
+              Voir la galerie
             </a>
           </div>
         </div>
@@ -573,6 +573,7 @@ function CollectionsBar({ value, onChange }) {
     { key: "all",    label: "Tout",                                   icon: null },
     { key: "soiree", label: "Robe de soirée",                         icon: null },
     { key: "mariee", label: "Robe de mariée / Shabbat Hatan",         icon: null },
+    { key: "mariee", label: "Shabbat Hatan",                          icon: null },
     { key: "autre",  label: "Autre",                                  icon: null },
   ];
 
@@ -637,7 +638,7 @@ function CataloguePage() {
     <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Catalogue complet</h1>
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Galerie</h1>
 
         {/* NOUVELLE barre de collections */}
         <CollectionsBar value={cat} onChange={setCat} />
