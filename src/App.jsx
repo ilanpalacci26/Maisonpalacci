@@ -244,76 +244,85 @@ function SmartImage({ src, alt, eager = false }) {
   );
 }
 function Carousel() {
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
   const total = CATALOG_IMAGES.length;
 
-  const go   = (i) => setIndex(((i % total) + total) % total);
+  const go   = (i) => setIndex((i + total) % total);
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
-  if (total === 0) {
-    return <div className="text-sm text-black/60">Catalogue à venir…</div>;
-  }
-
   const current = CATALOG_IMAGES[index];
 
+  // Navigation clavier (← →)
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [index]);
+
   return (
-    <div className="relative flex flex-col items-center">
-      {/* Cadre unique : fond rose, jamais rogné, max 60vh (3/5 page) */}
-      <div
-        className="
-          w-full max-w-[720px]
-          rounded-3xl
-          bg-[#F6EEE9]
-          overflow-hidden
-          flex items-center justify-center
-          p-2 md:p-3
-          mx-auto
-          min-w-0 min-h-0
-        "
-        style={{ maxHeight: '60vh' }}
-      >
-        <img
-          src={current.src}
-          alt={current.alt || `Image ${index + 1}`}
-          /* clé: ces 4 props empêchent tout rognage */
-          className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03] focus:outline-none focus:ring-2 focus:ring-black/30"
-          loading="eager"
-        />
+    <div className="relative select-none">
+      {/* VUE PRINCIPALE — aucun ratio imposé, jamais rogné */}
+      <div className="grid place-items-center">
+        <div
+          className="
+            rounded-3xl bg-[#F6EEE9] p-3 shadow-sm
+          "
+          style={{ maxHeight: "60vh" }} /* ~3/5 de page */
+        >
+          <img
+            src={current.src}
+            alt={current.alt || `Image ${index + 1}`}
+            className="block object-contain w-auto h-auto max-h-[60vh]"
+            style={{ maxWidth: "min(92vw, 720px)" }} /* large mais raisonnable */
+            loading="eager"
+          />
+        </div>
       </div>
 
       {/* Flèches */}
       <button
-        aria-label="Précédent"
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 text-white hover:bg-black"
+        aria-label="Précédent"
+        className="
+          absolute left-3 top-1/2 -translate-y-1/2
+          h-10 w-10 rounded-full grid place-items-center
+          bg-black/60 text-white hover:bg-black/70
+        "
       >
         ‹
       </button>
       <button
-        aria-label="Suivant"
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 text-white hover:bg-black"
+        aria-label="Suivant"
+        className="
+          absolute right-3 top-1/2 -translate-y-1/2
+          h-10 w-10 rounded-full grid place-items-center
+          bg-black/60 text-white hover:bg-black/70
+        "
       >
         ›
       </button>
 
-      {/* Bullets */}
+      {/* Puces */}
       <div className="mt-4 flex items-center justify-center gap-2">
         {CATALOG_IMAGES.map((_, i) => (
           <button
             key={i}
             onClick={() => go(i)}
             aria-label={`Aller à l’image ${i + 1}`}
-            className={`h-2.5 w-2.5 rounded-full transition ${
-              i === index ? 'bg-black' : 'bg-black/30'
-            }`}
+            className={`h-2.5 w-2.5 rounded-full transition
+              ${i === index ? "bg-black" : "bg-black/30"}`}
           />
         ))}
       </div>
     </div>
   );
 }
+
 
 
 // =====================
