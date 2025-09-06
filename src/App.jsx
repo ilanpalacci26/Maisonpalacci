@@ -243,7 +243,6 @@ function SmartImage({ src, alt, eager = false }) {
     </div>
   );
 }
-
 function Carousel() {
   const [index, setIndex] = React.useState(0);
   const total = CATALOG_IMAGES.length;
@@ -260,22 +259,26 @@ function Carousel() {
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Cadre unique : taille max 3/5 page, fond rose, sans ratio forcé */}
+      {/* Cadre unique : fond rose, jamais rogné, max 60vh (3/5 page) */}
       <div
         className="
           w-full max-w-[720px]
-          max-h-[60vh]
           rounded-3xl
           bg-[#F6EEE9]
           overflow-hidden
           flex items-center justify-center
+          p-2 md:p-3
           mx-auto
+          min-w-0 min-h-0
         "
+        style={{ maxHeight: '60vh' }}
       >
         <img
           src={current.src}
           alt={current.alt || `Image ${index + 1}`}
-          className="max-h-full max-w-full object-contain"
+          /* clé: ces 4 props empêchent tout rognage */
+          className="block w-auto h-auto max-w-full max-h-full object-contain !object-contain"
+          style={{ objectFit: 'contain' }}
           loading="eager"
         />
       </div>
@@ -304,7 +307,7 @@ function Carousel() {
             onClick={() => go(i)}
             aria-label={`Aller à l’image ${i + 1}`}
             className={`h-2.5 w-2.5 rounded-full transition ${
-              i === index ? "bg-black" : "bg-black/30"
+              i === index ? 'bg-black' : 'bg-black/30'
             }`}
           />
         ))}
