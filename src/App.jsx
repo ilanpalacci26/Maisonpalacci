@@ -202,13 +202,11 @@ function Hero() {
               Découvrir la galerie
             </a>
             <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="px-6 py-3 rounded-xl bg-[#E5D0C5] text-black hover:opacity-90 transition"
-            >
-              Prendre un rendez-vous
-            </a>
+  href="#rendezvous"
+  className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-90 transition"
+>
+  Prendre un rendez-vous
+</a>
           </div>
         </div>
       </div>
@@ -439,6 +437,106 @@ function RecommandationsSection() {
     </section>
   );
 }
+
+function RendezVousSection() {
+  const [date, setDate] = React.useState("");
+  const [time, setTime] = React.useState("");
+  const [motif, setMotif] = React.useState("Conseil & découverte");
+
+  const phoneIntl = "972587786722"; // ton numéro au format international
+
+  const formatFr = (isoDate, isoTime) => {
+    if (!isoDate) return "";
+    // isoDate = "2025-09-06", isoTime = "14:30"
+    const [y,m,d] = isoDate.split("-");
+    const hhmm = isoTime || "—";
+    return `${d}/${m}/${y} à ${hhmm}`;
+  };
+
+  const openWhatsApp = () => {
+    if (!date) { alert("Choisis une date."); return; }
+    const when = formatFr(date, time);
+    const msg = `Bonjour, j’aimerais prendre rendez-vous.\n• Date souhaitée : ${when}\n• Motif : ${motif}\nMerci de me confirmer la disponibilité.`;
+    const url = `https://wa.me/${phoneIntl}?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+  };
+
+  // (facultatif) Bloquer le samedi (Shabbat) côté UI :
+  const disableSaturday = (e) => {
+    const val = e.target.value; // "YYYY-MM-DD"
+    if (!val) return;
+    // 0=Dim ... 6=Sam
+    const day = new Date(val + "T12:00:00").getDay();
+    if (day === 6) {
+      alert("Le samedi n’est pas réservable. Choisis un autre jour.");
+      e.target.value = "";
+      setDate("");
+    }
+  };
+
+  return (
+    <section id="rendezvous" className="max-w-6xl mx-auto px-4 py-14">
+      <h2 className="text-lg md:text-xl font-light tracking-[0.25em] mb-8 text-black/80 uppercase">
+        Prendre rendez-vous
+      </h2>
+
+      <div className="rounded-2xl bg-white/50 backdrop-blur px-6 py-6 md:py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {/* Date */}
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="text-black/70">Date</span>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              onBlur={disableSaturday} /* retire si tu ne veux pas bloquer le samedi */
+              className="rounded-xl border border-[#E5D0C5] bg-white/70 px-3 py-2 outline-none focus:ring-2 focus:ring-[#E5D0C5]"
+            />
+          </label>
+
+          {/* Heure (facultatif) */}
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="text-black/70">Heure (optionnel)</span>
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              className="rounded-xl border border-[#E5D0C5] bg-white/70 px-3 py-2 outline-none focus:ring-2 focus:ring-[#E5D0C5]"
+            />
+          </label>
+
+          {/* Motif */}
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="text-black/70">Motif</span>
+            <select
+              value={motif}
+              onChange={(e) => setMotif(e.target.value)}
+              className="rounded-xl border border-[#E5D0C5] bg-white/70 px-3 py-2 outline-none focus:ring-2 focus:ring-[#E5D0C5]"
+            >
+              <option>Conseil & découverte</option>
+              <option>Création sur-mesure (mariée)</option>
+              <option>Création sur-mesure (soirée)</option>
+              <option>Demi-mesure (achat)</option>
+              <option>Demi-mesure (location)</option>
+              <option>Autre</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="mt-6">
+          <button
+            onClick={openWhatsApp}
+            className="px-5 py-3 rounded-xl bg-[#E5D0C5] text-black transition-colors duration-300 ease-in-out hover:opacity-90"
+          >
+            Envoyer la demande sur WhatsApp
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function ContactSection() {
   // Petites icônes locales (SVG inline, aucune dépendance)
   const IconPin = (p) => (
@@ -544,6 +642,7 @@ function OnePageApp() {
       <CatalogueSection />
       <FormulesSection />
       <RecommandationsSection />
+      <RendezVousSection />  
       <ContactSection />
       <Footer />
       <WhatsAppFab />
