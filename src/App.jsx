@@ -9,7 +9,8 @@ import { useLocation, Link } from "react-router-dom";
 const COLLECTIONS = [
   { key: "all",    label: "Tout" },
   { key: "soiree", label: "Robe de soirée" },
-  { key: "mariee", label: "Robe de mariée / Shabbat Hatan" },
+  { key: "mariee", label: "Robe de mariée" },
+  { key: "shabbat hatan", label: "Shabat Hatan" },
   { key: "autre",  label: "Autre" },
 ];
 
@@ -570,9 +571,9 @@ function CollectionsBar({ value, onChange }) {
 
   const items = [
     { key: "all",    label: "Tout",                                   icon: null },
-    { key: "soiree", label: "Robe de soirée",                         icon: IconSoiree },
-    { key: "mariee", label: "Robe de mariée / Shabbat Hatan",         icon: IconMariee },
-    { key: "autre",  label: "Autre",                                  icon: IconAutre },
+    { key: "soiree", label: "Robe de soirée",                         icon: null },
+    { key: "mariee", label: "Robe de mariée / Shabbat Hatan",         icon: null },
+    { key: "autre",  label: "Autre",                                  icon: null },
   ];
 
   return (
