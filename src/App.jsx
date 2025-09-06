@@ -204,9 +204,9 @@ function Hero() {
             </a>
             <a
   href="#rendezvous"
-  className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-90 transition"
+  className="px-6 py-3 rounded-xl border border-[#E5D0C5] text-black hover:bg-[#E5D0C5] transition"
 >
-  Prendre un rendez-vous
+  Prendre rendez-vous
 </a>
           </div>
         </div>
@@ -672,7 +672,7 @@ function CollectionsBar({ value, onChange }) {
   const items = [
     { key: "all",    label: "Tout",                                   icon: null },
     { key: "soiree", label: "Robe de soirée",                         icon: null },
-    { key: "mariee", label: "Robe de mariée / Shabbat Hatan",         icon: null },
+    { key: "mariee", label: "Robe de mariée",                         icon: null },
     { key: "mariee", label: "Shabbat Hatan",                          icon: null },
     { key: "autre",  label: "Autre",                                  icon: null },
   ];
