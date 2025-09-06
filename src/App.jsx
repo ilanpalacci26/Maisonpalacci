@@ -105,13 +105,13 @@ function Header() {
   const base = pathname === "/catalogue" ? "/#" : "#";
 
   const links = [
-    { href: `${base}accueil`, label: "Accueil" },
+    { href: `/#accueil`, label: "Accueil" },
     // la page galerie est la route /catalogue
     { href: "/catalogue", label: "Galerie", route: true },
-    { href: `${base}formules`, label: "Nos formules" },
-    { href: `${base}recommandations`, label: "Avis" },
-    { href: `${base}rendezvous`, label: "Prendre rendez-vous" },
-    { href: `${base}contact`, label: "Contact" },
+    { href: `/#formules`, label: "Nos formules" },
+    { href: `/#recommandations`, label: "Avis" },
+    { href: `/#rendezvous`, label: "Prendre rendez-vous" },
+    { href: `/#contact`, label: "Contact" },
   ];
 
   return (
