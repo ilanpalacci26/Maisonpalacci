@@ -175,9 +175,12 @@ function Hero() {
           <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-black">
             MAISON PALACCI
           </h1>
-
           {/* Sous-titre plus petit */}
-          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase whitespace-nowrap">
+          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase">
+            JÉRUSALEM
+          </p>
+          {/* Sous-titre plus petit */}
+          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase">
             SUR-MESURE | ROBE DE MARIÉE • ROBE DE SOIRÉE
           </p>
 
