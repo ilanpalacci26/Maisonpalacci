@@ -278,7 +278,6 @@ function Carousel() {
           alt={current.alt || `Image ${index + 1}`}
           /* clé: ces 4 props empêchent tout rognage */
           className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03] focus:outline-none focus:ring-2 focus:ring-black/30"
-          style={{ objectFit: 'contain' }}
           loading="eager"
         />
       </div>
