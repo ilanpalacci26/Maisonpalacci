@@ -101,7 +101,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
 
-  // si on est sur /catalogue, on doit renvoyer vers "/#section"
+  // si on est sur specialis, on doit renvoyer vers "/#section"
   const base = pathname === "/catalogue" ? "/#" : "#";
 
   const links = [
@@ -110,6 +110,7 @@ function Header() {
     { href: "/catalogue", label: "Galerie", route: true },
     { href: `${base}formules`, label: "Nos formules" },
     { href: `${base}recommandations`, label: "Avis" },
+    { href: `${base}RendezVousSection`, label: "Prendre rendez-vous" },
     { href: `${base}contact`, label: "Contact" },
   ];
 
@@ -571,7 +572,7 @@ function ContactSection() {
             <h3 className="text-lg font-normal">MAISON PALACCI</h3>
             <p className="text-black/60 mt-1">Finition Haute Couture</p>
             <p className="text-sm text-black/70 leading-relaxed mt-4">
-              Maison de couture spécialisé en robes de mariée et de soirée sur-mesure.
+              Maison de couture spécialisée en robes de mariée et de soirée sur-mesure.
               Accompagnement personnalisé, finitions et exigence haute couture.
             </p>
           </div>
@@ -614,10 +615,10 @@ function ContactSection() {
           <div>
             <h4 className="font-medium text-black mb-2">Navigation</h4>
             <ul className="text-sm text-black/80">
-              <li className="py-1.5"><a href="#accueil" className="hover:underline">Accueil</a></li>
-              <li className="py-1.5"><a href="#formules" className="hover:underline">Nos formules</a></li>
-              <li className="py-1.5"><a href="#recommandations" className="hover:underline">Avis</a></li>
-              <li className="py-1.5"><a href="#contact" className="hover:underline">Contact</a></li>
+              <li className="py-1.5"><a href="/#accueil" className="hover:underline">Accueil</a></li>
+              <li className="py-1.5"><a href="/#formules" className="hover:underline">Nos formules</a></li>
+              <li className="py-1.5"><a href="/#recommandations" className="hover:underline">Avis</a></li>
+              <li className="py-1.5"><a href="/#contact" className="hover:underline">Contact</a></li>
             </ul>
           </div>
         </div>
