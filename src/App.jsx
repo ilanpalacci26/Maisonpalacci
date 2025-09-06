@@ -177,8 +177,8 @@ function Hero() {
           </h1>
 
           {/* Sous-titre plus petit */}
-          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase">
-            SUR-MESURE • ROBE DE MARIÉE • ROBE DE SOIRÉE • JERUSALEM
+          <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase whitespace-nowrap">
+            SUR-MESURE | ROBE DE MARIÉE • ROBE DE SOIRÉE
           </p>
 
           {/* Boutons */}
