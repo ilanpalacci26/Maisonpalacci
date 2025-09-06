@@ -264,7 +264,7 @@ function Carousel() {
       <div
         className="
           w-full max-w-[720px]
-          aspect-[4/5] max-h-[60vh]
+          max-h-[60vh]
           rounded-3xl
           bg-[#F6EEE9]
           overflow-hidden
