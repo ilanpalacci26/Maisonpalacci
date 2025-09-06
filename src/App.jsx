@@ -5,7 +5,7 @@ import { useLocation, Link } from "react-router-dom";
 // =====================
 // Données du site
 // =====================
-/ ---- Collections + images taguées ----
+// ---- Collections + images taguées ----
 const COLLECTIONS = [
   { key: "all",    label: "Tout" },
   { key: "soiree", label: "Robe de soirée" },
