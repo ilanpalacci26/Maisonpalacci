@@ -738,7 +738,7 @@ function CataloguePage() {
     <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Galerie</h1>
+        <h1 className="bg-[#F6EEE9] max-w-6xl mx-auto px-4 py-14 rounded-3xl"><SectionTitle>Galerie</SectionTitle></h1>
 
         {/* NOUVELLE barre de collections */}
         <CollectionsBar value={cat} onChange={setCat} />
