@@ -260,7 +260,7 @@ function Carousel() {
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Cadre unique : 1 image, fond rose, SANS bordure, max 60vh */}
+      {/* Cadre unique : taille max 3/5 page, fond rose, sans ratio forcé */}
       <div
         className="
           w-full max-w-[720px]
@@ -312,6 +312,7 @@ function Carousel() {
     </div>
   );
 }
+
 
 // =====================
 // Sections
