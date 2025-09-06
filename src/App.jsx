@@ -245,91 +245,128 @@ function SmartImage({ src, alt, eager = false }) {
 }
 
 function Carousel() {
-  const [index, setIndex] = useState(0);
+  const trackRef = React.useRef(null);
+  const [index, setIndex] = React.useState(0);
   const total = CATALOG_IMAGES.length;
 
-  const go   = (i) => setIndex((i + total) % total);
+  const go = (i) => {
+    if (!trackRef.current) return;
+    const clamped = (i + total) % total;
+    const el = trackRef.current.children[clamped];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      setIndex(clamped);
+    }
+  };
+
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
-  const current = CATALOG_IMAGES[index];
-  const prevIdx = (index - 1 + total) % total;
-  const nextIdx = (index + 1) % total;
+  // Met à jour l’index pendant le scroll (pour les bullets)
+  React.useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onScroll = () => {
+      const children = Array.from(track.children);
+      if (!children.length) return;
+      // trouve la carte la plus centrée
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      children.forEach((c, i) => {
+        const center = c.offsetLeft + c.clientWidth / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      setIndex(best);
+    };
+
+    track.addEventListener("scroll", onScroll, { passive: true });
+    return () => track.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="relative">
-      {/* Image principale */}
-      <div className="w-full flex justify-center">
-        <SmartImage
-          src={current.src}
-          alt={current.alt || `Image ${index + 1}`}
-          eager
-        />
+      {/* Piste horizontale */}
+      <div
+        ref={trackRef}
+        className="
+          flex gap-4 overflow-x-auto scroll-smooth
+          snap-x snap-mandatory
+          bg-[#F6EEE9] rounded-3xl p-4
+          border border-black/10
+          [&::-webkit-scrollbar]:hidden
+          [-ms-overflow-style:'none'] [scrollbar-width:'none']
+        "
+      >
+        {CATALOG_IMAGES.map((img, i) => (
+          <div
+            key={i}
+            className="
+              snap-center shrink-0
+              basis-[80%] sm:basis-[60%] md:basis-[45%] lg:basis-[35%] xl:basis-[28%]
+            "
+          >
+            <div
+              className="
+                aspect-[4/5] rounded-2xl overflow-hidden
+                border border-black/10 bg-white/40
+                flex items-center justify-center
+              "
+            >
+              <img
+                src={img.src}
+                alt={img.alt || `Image ${i + 1}`}
+                className="max-h-full max-w-full object-contain"
+                loading={i < 2 ? "eager" : "lazy"}
+                onClick={() => go(i)} // clic pour recentrer
+              />
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Flèches */}
       <button
-        aria-label="Précédent"
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
+        aria-label="Précédent"
+        className="
+          absolute left-3 top-1/2 -translate-y-1/2
+          h-10 w-10 rounded-full
+          bg-black/60 text-white hover:bg-black
+        "
       >
         ‹
       </button>
       <button
-        aria-label="Suivant"
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
+        aria-label="Suivant"
+        className="
+          absolute right-3 top-1/2 -translate-y-1/2
+          h-10 w-10 rounded-full
+          bg-black/60 text-white hover:bg-black
+        "
       >
         ›
       </button>
 
-      {/* Bandeau d’aperçus */}
-      <div className="mt-4 grid grid-cols-3 gap-3 items-center">
-        {/* Vignette précédente */}
-        <button
-          onClick={prev}
-          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl bg-[#F6EEE9]/40"
-          aria-label="Voir l’image précédente"
-          title="Précédent"
-        >
-          <img
-            src={CATALOG_IMAGES[prevIdx].src}
-            alt=""
-            className="w-full h-full object-contain"
+      {/* Bullets */}
+      <div className="mt-4 flex items-center justify-center gap-2">
+        {CATALOG_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => go(i)}
+            aria-label={`Aller à l’image ${i + 1}`}
+            className={`h-2.5 w-2.5 rounded-full transition ${
+              i === index ? "bg-black" : "bg-black/30"
+            }`}
           />
-        </button>
-
-        {/* Bullets */}
-        <div className="flex items-center justify-center gap-2">
-          {CATALOG_IMAGES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => go(i)}
-              aria-label={`Aller à l’image ${i + 1}`}
-              className={`h-2.5 w-2.5 rounded-full transition ${
-                i === index ? "bg-black" : "bg-black/30"
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Vignette suivante */}
-        <button
-          onClick={next}
-          className="w-full aspect-[4/5] max-h-[20vh] overflow-hidden rounded-xl /10 bg-[#F6EEE9]/40"
-          aria-label="Voir l’image suivante"
-          title="Suivant"
-        >
-          <img
-            src={CATALOG_IMAGES[nextIdx].src}
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </button>
+        ))}
       </div>
     </div>
   );
 }
+
 // =====================
 // Sections
 // =====================
