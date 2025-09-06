@@ -5,18 +5,26 @@ import { useLocation, Link } from "react-router-dom";
 // =====================
 // Données du site
 // =====================
-const CATALOG_IMAGES = [
-  { src: "/galerie/Dream3.jpeg", alt: "Dream" },
-  { src: "/galerie/Dream1.jpeg", alt: "Dream" },
-  { src: "/galerie/Dream2.jpeg", alt: "Dream" },
-   { src: "/galerie/Empire1.jpeg", alt: "Empire" },
-   { src: "/galerie/Empire2.jpeg", alt: "Empire" },
-  { src: "/galerie/Purple1.jpeg", alt: "Purple" },
-   { src: "/galerie/Purple2.jpeg", alt: "Purple" },
-  { src: "/galerie/Ocean1.jpeg", alt: "Purple" },
-  { src: "/galerie/Casual1.jpeg", alt: "Purple" }
+/ ---- Collections + images taguées ----
+const COLLECTIONS = [
+  { key: "all",    label: "Tout" },
+  { key: "soiree", label: "Robe de soirée" },
+  { key: "mariee", label: "Robe de mariée / Shabbat Hatan" },
+  { key: "autre",  label: "Autre" },
 ];
 
+const CATALOG_IMAGES = [
+  // tague chaque image avec cat: "soiree" | "mariee" | "autre"
+  { src: "/galerie/Dream3.jpeg",  alt: "Dream",   cat: "mariee" },
+  { src: "/galerie/Dream1.jpeg",  alt: "Dream",   cat: "mariee" },
+  { src: "/galerie/Dream2.jpeg",  alt: "Dream",   cat: "mariee" },
+  { src: "/galerie/Empire1.jpeg", alt: "Empire",  cat: "shabbat hatan" },
+  { src: "/galerie/Empire2.jpeg", alt: "Empire",  cat: "shabbat hatan" },
+  { src: "/galerie/Purple1.jpeg", alt: "Purple",  cat: "soiree"  },
+  { src: "/galerie/Purple2.jpeg", alt: "Purple",  cat: "soiree"  },
+  { src: "/galerie/Ocean1.jpeg",  alt: "Ocean",   cat: "soiree"  },
+  { src: "/galerie/Casual1.jpeg", alt: "Casual",  cat: "autre"  },
+];
 const FORMULES = [
   {
     key: "custom_buy",
@@ -542,19 +550,69 @@ function OnePageApp() {
   );
 }
 /* ===== Page /catalogue (grille tabloïdes, même style visuel) ===== */
+function CollectionsBar({ value, onChange }) {
+  // Icônes minimalistes (SVG inline)
+  const IconSoiree = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className||"w-5 h-5"} fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 3c3 0 5 2 5 5 0 4-5 6-5 10 0-4-5-6-5-10 0-3 2-5 5-5z"/><circle cx="12" cy="4.5" r="0.8" fill="currentColor"/>
+    </svg>
+  );
+  const IconMariee = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className||"w-5 h-5"} fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 3l4 6H8l4-6zM7 10h10l3 9H4l3-9z"/>
+    </svg>
+  );
+  const IconAutre = (p) => (
+    <svg viewBox="0 0 24 24" className={p.className||"w-5 h-5"} fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 9h6v6H9z"/>
+    </svg>
+  );
+
+  const items = [
+    { key: "all",    label: "Tout",                                   icon: null },
+    { key: "soiree", label: "Robe de soirée",                         icon: IconSoiree },
+    { key: "mariee", label: "Robe de mariée / Shabbat Hatan",         icon: IconMariee },
+    { key: "autre",  label: "Autre",                                  icon: IconAutre },
+  ];
+
+  return (
+    <div className="flex flex-wrap gap-2 mb-6">
+      {items.map(it => {
+        const active = value === it.key;
+        const Icon = it.icon;
+        return (
+          <button
+            key={it.key}
+            onClick={() => onChange(it.key)}
+            className={[
+              "inline-flex items-center gap-2 px-3 py-2 rounded-full text-sm",
+              "border transition-colors duration-200",
+              active ? "border-[#E5D0C5] bg-[#E5D0C5]" : "border-black/15 hover:bg-black/[.03]"
+            ].join(" ")}
+            aria-pressed={active}
+          >
+            {Icon && <Icon className="w-4 h-4" />}
+            <span>{it.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 /* ===== Page /catalogue avec Lightbox ===== */
 function CataloguePage() {
-  const items = CATALOG_IMAGES; // on réutilise tes images
-  const [openIndex, setOpenIndex] = useState(null); // null = fermé
+  const [cat, setCat] = useState("all");
+  const items = React.useMemo(
+    () => CATALOG_IMAGES.filter(i => cat === "all" ? true : i.cat === cat),
+    [cat]
+  );
+  const [openIndex, setOpenIndex] = useState(null);
 
-  // Navigation dans le lightbox
-  const prev = () =>
-    setOpenIndex((i) => (i === null ? null : (i - 1 + items.length) % items.length));
-  const next = () =>
-    setOpenIndex((i) => (i === null ? null : (i + 1) % items.length));
+  // Nav lightbox (inchangé)
+  const prev = () => setOpenIndex(i => (i === null ? null : (i - 1 + items.length) % items.length));
+  const next = () => setOpenIndex(i => (i === null ? null : (i + 1) % items.length));
   const close = () => setOpenIndex(null);
 
-  // ESC / flèches clavier + verrouillage du scroll en arrière-plan
   React.useEffect(() => {
     const onKey = (e) => {
       if (openIndex === null) return;
@@ -563,7 +621,6 @@ function CataloguePage() {
       if (e.key === "ArrowRight") next();
     };
     window.addEventListener("keydown", onKey);
-    // lock scroll
     if (openIndex !== null) {
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
@@ -579,82 +636,48 @@ function CataloguePage() {
     <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-2xl md:text-3xl font-normal tracking-tight mb-6">
-          Catalogue complet
-        </h1>
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">Catalogue complet</h1>
 
-        {/* Grille tabloïdes : cadres identiques, images non rognées */}
+        {/* NOUVELLE barre de collections */}
+        <CollectionsBar value={cat} onChange={setCat} />
+
+        {/* Grille tabloïdes */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {items.map((img, i) => (
             <button
-              key={i}
+              key={`${img.src}-${i}`}
               type="button"
               onClick={() => setOpenIndex(i)}
               className="w-full aspect-[3/4] rounded-xl overflow-hidden border border-black/10 bg-black/[.03] focus:outline-none focus:ring-2 focus:ring-black/30"
               aria-label={`Agrandir l’image ${i + 1}`}
             >
-              <img
-                src={img.src}
-                alt={img.alt || `Image ${i + 1}`}
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
+              <img src={img.src} alt={img.alt || `Image ${i + 1}`} className="w-full h-full object-contain" loading="lazy" />
             </button>
           ))}
+          {items.length === 0 && (
+            <p className="col-span-full text-sm text-black/60">Aucune image dans cette collection pour le moment.</p>
+          )}
         </div>
       </main>
       <Footer />
       <WhatsAppFab />
 
-      {/* Lightbox */}
+      {/* Lightbox (inchangé) */}
       {openIndex !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-[999] bg-black/70 flex items-center justify-center p-4"
-          onClick={close} // clic sur le fond = fermer
-        >
-          {/* Contenu (stoppe la propagation pour éviter fermeture) */}
-          <div
-            className="relative max-w-[90vw] max-h-[90vh] w-full md:w-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={items[openIndex].src}
-              alt={items[openIndex].alt || `Image ${openIndex + 1}`}
-              className="max-w-full max-h-[90vh] object-contain rounded-2xl border border-black/20 bg-black/[.03]"
-            />
-
-            {/* Bouton fermer */}
-            <button
-              onClick={close}
-              aria-label="Fermer"
-              className="absolute -top-3 -right-3 md:top-2 md:right-2 h-10 w-10 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
-            >
-              ×
-            </button>
-
-            {/* Flèches */}
-            <button
-              onClick={prev}
-              aria-label="Précédent"
-              className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
-            >
-              ‹
-            </button>
-            <button
-              onClick={next}
-              aria-label="Suivant"
-              className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-[#E5D0C5] text-black hover:bg-[#D9BFB2]"
-            >
-              ›
-            </button>
+        <div role="dialog" aria-modal="true" className="fixed inset-0 z-[999] bg-black/70 flex items-center justify-center p-4" onClick={close}>
+          <div className="relative max-w-[90vw] max-h-[90vh] w-full md:w-auto" onClick={(e) => e.stopPropagation()}>
+            <img src={items[openIndex].src} alt={items[openIndex].alt || `Image ${openIndex + 1}`}
+                 className="max-w-full max-h-[90vh] object-contain rounded-2xl border border-black/20 bg-black/[.03]" />
+            <button onClick={close} aria-label="Fermer" className="absolute -top-3 -right-3 md:top-2 md:right-2 h-10 w-10 rounded-full bg-black text-white hover:opacity-90">×</button>
+            <button onClick={prev} aria-label="Précédent" className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90">‹</button>
+            <button onClick={next} aria-label="Suivant" className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-black text-white hover:opacity-90">›</button>
           </div>
         </div>
       )}
     </div>
   );
 }
+
 /* ===== Router : on sert ta one-page à "/" et la nouvelle page à "/catalogue" ===== */
 export default function App() {
   return (
