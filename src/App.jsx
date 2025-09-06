@@ -110,7 +110,7 @@ function Header() {
     { href: "/catalogue", label: "Galerie", route: true },
     { href: `${base}formules`, label: "Nos formules" },
     { href: `${base}recommandations`, label: "Avis" },
-    { href: `${base}RendezVousSection`, label: "Prendre rendez-vous" },
+    { href: `${base}rendezvous`, label: "Prendre rendez-vous" },
     { href: `${base}contact`, label: "Contact" },
   ];
 
