@@ -67,7 +67,7 @@ const TESTIMONIALS = [
 ];
 
 const WHATSAPP_INTL = "972587786722";
-const WHATSAPP_MESSAGE = encodeURIComponent("Bonjour, je serais ravie d’avoir plus de détails sur vos créations et vos conseils.");
+const WHATSAPP_MESSAGE = encodeURIComponent("Bonjour, je serais ravie d’avoir plus de détails sur vos créations.");
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_INTL}?text=${WHATSAPP_MESSAGE}`;
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("3 David Pinkas, Jérusalem")}`;
 // =====================
@@ -190,7 +190,7 @@ function Hero() {
           </p>
           {/* Sous-titre plus petit */}
           <p className="mt-3 text-xs md:text-sm text-black/70 tracking-[0.25em] uppercase">
-            SUR-MESURE | ROBE DE MARIÉE • ROBE DE SOIRÉE
+            SUR-MESURE | ROBE DE MARIÉE • ROBE DE SOIRÉE | 
           </p>
 
           {/* Boutons */}
