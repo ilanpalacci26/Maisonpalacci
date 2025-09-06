@@ -245,110 +245,53 @@ function SmartImage({ src, alt, eager = false }) {
 }
 
 function Carousel() {
-  const trackRef = React.useRef(null);
   const [index, setIndex] = React.useState(0);
   const total = CATALOG_IMAGES.length;
 
-  const go = (i) => {
-    if (!trackRef.current || total === 0) return;
-    const clamped = (i + total) % total;
-    const el = trackRef.current.children[clamped];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      setIndex(clamped);
-    }
-  };
-
+  const go   = (i) => setIndex(((i % total) + total) % total);
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
-
-  // Met à jour l’index pendant le scroll pour les bullets
-  React.useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const onScroll = () => {
-      const children = Array.from(track.children);
-      if (!children.length) return;
-      const mid = track.scrollLeft + track.clientWidth / 2;
-      let best = 0, bestDist = Infinity;
-      children.forEach((c, i) => {
-        const center = c.offsetLeft + c.clientWidth / 2;
-        const d = Math.abs(center - mid);
-        if (d < bestDist) { bestDist = d; best = i; }
-      });
-      setIndex(best);
-    };
-
-    track.addEventListener("scroll", onScroll, { passive: true });
-    return () => track.removeEventListener("scroll", onScroll);
-  }, []);
 
   if (total === 0) {
     return <div className="text-sm text-black/60">Catalogue à venir…</div>;
   }
 
+  const current = CATALOG_IMAGES[index];
+
   return (
-    <div className="relative">
-      {/* Piste horizontale : une seule ligne, défilement fluide */}
+    <div className="relative flex flex-col items-center">
+      {/* Cadre unique : 1 image, fond rose, SANS bordure, max 60vh */}
       <div
-        ref={trackRef}
         className="
-          flex gap-4 overflow-x-auto scroll-smooth
-          snap-x snap-mandatory
-          rounded-3xl p-2 md:p-3
-          [&::-webkit-scrollbar]:hidden
-          [-ms-overflow-style:'none'] [scrollbar-width:'none']
+          w-full max-w-[720px]
+          aspect-[4/5] max-h-[60vh]
+          rounded-3xl
+          bg-[#F6EEE9]
+          overflow-hidden
+          flex items-center justify-center
+          mx-auto
         "
       >
-        {CATALOG_IMAGES.map((img, i) => (
-          <div
-            key={i}
-            className="
-              snap-center shrink-0
-              basis-[82%] sm:basis-[62%] md:basis-[46%] lg:basis-[34%] xl:basis-[28%]
-            "
-            onClick={() => go(i)}
-          >
-            {/* Cadre rose, sans bordure ni ombre */}
-            <div
-              className="
-                aspect-[4/5] rounded-2xl
-                bg-[#F6EEE9]
-                flex items-center justify-center
-              "
-            >
-              <img
-                src={img.src}
-                alt={img.alt || `Image ${i + 1}`}
-                className="max-h-[92%] max-w-[92%] object-contain"
-                loading={i < 2 ? "eager" : "lazy"}
-              />
-            </div>
-          </div>
-        ))}
+        <img
+          src={current.src}
+          alt={current.alt || `Image ${index + 1}`}
+          className="max-h-full max-w-full object-contain"
+          loading="eager"
+        />
       </div>
 
       {/* Flèches */}
       <button
-        onClick={prev}
         aria-label="Précédent"
-        className="
-          absolute left-3 top-1/2 -translate-y-1/2
-          h-10 w-10 rounded-full
-          bg-black/60 text-white hover:bg-black
-        "
+        onClick={prev}
+        className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 text-white hover:bg-black"
       >
         ‹
       </button>
       <button
-        onClick={next}
         aria-label="Suivant"
-        className="
-          absolute right-3 top-1/2 -translate-y-1/2
-          h-10 w-10 rounded-full
-          bg-black/60 text-white hover:bg-black
-        "
+        onClick={next}
+        className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 text-white hover:bg-black"
       >
         ›
       </button>
