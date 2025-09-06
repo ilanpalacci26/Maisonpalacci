@@ -713,7 +713,7 @@ function CollectionsBar({ value, onChange }) {
     { key: "all",    label: "Tout",                                   icon: null },
     { key: "soiree", label: "Robe de soirée",                         icon: null },
     { key: "mariee", label: "Robe de mariée",                         icon: null },
-    { key: "mariee", label: "Shabbat Hatan",                          icon: null },
+    { key: "shabbat hatan", label: "Shabbat Hatan",                   icon: null },
     { key: "autre",  label: "Autre",                                  icon: null },
   ];
 
