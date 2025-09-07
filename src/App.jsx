@@ -107,7 +107,7 @@ function Header() {
   const links = [
     { href: `/#accueil`, label: "Accueil" },
     // la page galerie est la route /catalogue
-    {href:"/#notre-histoire", label: "Accueil"},
+ { href: "#lamaison", label: "La Maison" },
     { href: "/catalogue", label: "Galerie", route: true },
     { href: `/#formules`, label: "Nos formules" },
     { href: `/#recommandations`, label: "Avis" },
@@ -222,118 +222,153 @@ function Hero() {
 // Cadre uniforme (même taille/ratio) + image jamais rognée
 // Cadre uniforme (max 3/5 de la page) + image jamais rognée
 
-function OurStorySection() {
-  const STEPS = [
+// =====================
+// La Maison — sticky + crossfade flou
+// =====================
+function HistoireSection() {
+  // Contenu + visuels (tes images)
+  const ETAPES = [
     {
-      key: "paris",
       title: "De Paris à Jérusalem",
       text:
         "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
       img: "/galerie/Dream3.jpeg",
+      caption: "De Paris à Jérusalem",
     },
     {
-      key: "vision",
       title: "Tsniout, modernité, élégance",
       text:
         "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
-      img: "/galerie/Dream2.jpeg",
+      img: "/galerie/Purple1.jpeg",
+      caption: "Élégance contemporaine",
     },
     {
-      key: "atelier",
       title: "L’atelier sur-mesure",
       text:
         "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
-      img: "/galerie/Dream1.jpeg",
+      img: "/galerie/Dream2.jpeg",
+      caption: "Atelier sur-mesure",
     },
     {
-      key: "showroom",
       title: "Un accueil sur rendez-vous",
       text:
-        "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.\nL'équipe Maison Palacci",
-      img: "/galerie/Dream3.jpeg.jpeg",
+        "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.",
+      img: "/galerie/Ocean1.jpeg",
+      caption: "Showroom Maison Palacci",
     },
   ];
 
-  const [active, setActive] = React.useState(STEPS[0].key);
-  const refs = React.useRef({});
+  const stepRefs = React.useRef([]);
+  const [mix, setMix] = React.useState({ i: 0, t: 0 });
 
+  // Mesure continue (centre écran) → mélange progressif (super-fondu)
   React.useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.dataset.key);
+    let raf;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const viewportCenter = window.innerHeight / 2;
+
+        const centers = stepRefs.current.map((el) => {
+          if (!el) return Infinity;
+          const r = el.getBoundingClientRect();
+          return (r.top + r.bottom) / 2;
         });
-      },
-      { rootMargin: "-30% 0px -50% 0px", threshold: 0.1 }
-    );
-    Object.values(refs.current).forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
+
+        let closest = 0;
+        let minDist = Infinity;
+        centers.forEach((c, idx) => {
+          const d = Math.abs(c - viewportCenter);
+          if (d < minDist) (minDist = d), (closest = idx);
+        });
+
+        const next = Math.min(closest + 1, ETAPES.length - 1);
+        const c0 = centers[closest];
+        const c1 = centers[next];
+        let t = 0;
+        if (next !== closest) {
+          const span = Math.max(1, Math.abs(c1 - c0));
+          t = Math.min(1, Math.max(0, (viewportCenter - Math.min(c0, c1)) / span));
+        }
+        setMix({ i: closest, t });
+      });
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  const current = STEPS.find((s) => s.key === active) || STEPS[0];
+  const curr = ETAPES[mix.i];
+  const next = ETAPES[Math.min(mix.i + 1, ETAPES.length - 1)];
+  const a = 1 - mix.t; // opacité image courante
+  const b = mix.t;     // opacité image suivante
+  const blurCurr = `${(1 - a) * 6}px`;
+  const blurNext = `${(1 - b) * 6}px`;
 
   return (
-    <section id="notre-histoire" className="bg-[#F6EEE9]">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24">
-        <h2 className="text-lg md:text-xl font-light tracking-[0.25em] uppercase mb-10 md:mb-14">
-          Notre histoire
-        </h2>
+    <section id="lamaison" className="max-w-6xl mx-auto px-4 py-16">
+      <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-8">LA MAISON</h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-8 md:gap-12">
-          {/* Colonne texte (défile) */}
-          <div>
-            {STEPS.map((s, i) => (
-              <article
-                key={s.key}
-                data-key={s.key}
-                ref={(el) => (refs.current[s.key] = el)}
-                className="
-                  mb-10 md:mb-16 last:mb-0
-                  bg-white/40 backdrop-blur-sm
-                  rounded-2xl p-5 md:p-6
-                "
-              >
-                <p className="text-xs tracking-[0.2em] uppercase text-black/60 mb-2">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="text-base md:text-lg font-normal tracking-wide">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm text-black/70 whitespace-pre-line leading-relaxed">
-                  {s.text}
-                </p>
-              </article>
-            ))}
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Colonne texte */}
+        <div className="space-y-6">
+          {ETAPES.map((s, idx) => (
+            <div
+              key={idx}
+              ref={(el) => (stepRefs.current[idx] = el)}
+              className="rounded-2xl bg-white/50 backdrop-blur-sm shadow-sm p-5"
+            >
+              <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-3">
+                {String(idx + 1).padStart(2, "0")}
+              </div>
+              <h3 className="text-base md:text-lg font-medium">{s.title}</h3>
+              <p className="mt-2 text-sm text-black/70 leading-relaxed">{s.text}</p>
+            </div>
+          ))}
+        </div>
 
-          {/* Colonne image (sticky) */}
-          <div className="relative">
-            <div className="sticky top-24">
-              {/* Image avec fondu */}
-<div className="aspect-[3/4] max-h-[60vh] rounded-3xl overflow-hidden bg-[#F6EEE9] relative">
-  <img
-    key={current.img} // déclenche le changement quand l’image change
-    src={current.img}
-    alt={current.title}
-    className="
-      absolute inset-0 w-full h-full object-contain
-      opacity-0 animate-fadeIn
-    "
-  />
-</div>
-              <p className="mt-3 text-xs text-black/50">{current.title}</p>
+        {/* Colonne image (sticky, centrée, image entière, fond rose, sans bord) */}
+        <div className="relative">
+          <div className="sticky top-[10vh] h-[80vh] flex items-center justify-center">
+            <div className="relative w-[min(60vw,720px)] max-w-[720px] aspect-[3/4] rounded-3xl bg-[#F6EEE9] overflow-hidden">
+              <img
+                key={curr.img + "-curr"}
+                src={curr.img}
+                alt={curr.caption}
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{
+                  opacity: a,
+                  filter: `blur(${blurCurr})`,
+                  transition: "opacity 250ms linear, filter 250ms linear",
+                }}
+              />
+              <img
+                key={next.img + "-next"}
+                src={next.img}
+                alt={next.caption}
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{
+                  opacity: b,
+                  filter: `blur(${blurNext})`,
+                  transition: "opacity 250ms linear, filter 250ms linear",
+                }}
+              />
             </div>
           </div>
+          <p className="text-xs text-black/60 mt-2 text-center">
+            {mix.t < 0.5 ? curr.caption : next.caption}
+          </p>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeIn { from {opacity:0; transform:translateY(4px)} to {opacity:1; transform:none} }
-      `}</style>
     </section>
   );
 }
-
 
 function SmartImage({ src, alt, eager = false }) {
   return (
@@ -756,7 +791,7 @@ function OnePageApp() {
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
       <Hero />
-      <OurStorySection />
+      <<HistoireSection /> />
       <CatalogueSection />
       <FormulesSection />
       <RecommandationsSection />
