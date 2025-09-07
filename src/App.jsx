@@ -345,7 +345,7 @@ function HistoireSection() {
                 style={{
                   opacity: a,
                   filter: `blur(${blurCurr})`,
-                  transition: "opacity 250ms linear, filter 250ms linear",
+                  transition:"opacity 1000ms ease-in-out, filter 1000ms ease-in-out",
                 }}
               />
               <img
@@ -356,7 +356,7 @@ function HistoireSection() {
                 style={{
                   opacity: b,
                   filter: `blur(${blurNext})`,
-                  transition: "opacity 250ms linear, filter 250ms linear",
+                  transition: "opacity 1000ms ease-in-out, filter 1000ms ease-in-out",
                 }}
               />
             </div>
