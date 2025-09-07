@@ -270,19 +270,20 @@ function Carousel() {
      <div
   className="
     relative mx-auto
-    aspect-[3/4]                 /* Cadre toujours 3/4 */
-    max-h-[60vh]                  /* max 3/5 de la page */
-    w-full max-w-[720px]          /* largeur raisonnable */
-    bg-[#F6EEE9]                  /* fond rose */
-    border border-black/20        /* bordure fine */
-    rounded-2xl                   /* coins arrondis */
+    aspect-[3/4]                 /* cadre fixe 3:4 */
+    max-h-[60vh]                 /* hauteur max */
+    w-full max-w-[720px]         /* largeur max */
+    bg-[#F6EEE9]                 /* fond rose */
+    border border-black/20       /* bordure autour du cadre */
+    rounded-2xl                  /* coins arrondis */
+    overflow-hidden              /* tout reste dans le cadre */
     flex items-center justify-center
   "
 >
   <img
     src={current.src}
     alt={current.alt || `Image ${index + 1}`}
-    className="object-contain max-h-full max-w-full"
+    className="object-contain w-full h-full"
     loading="eager"
   />
 </div>
