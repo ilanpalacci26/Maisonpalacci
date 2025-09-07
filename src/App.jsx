@@ -263,14 +263,14 @@ function HistoireSection() {
 
       {/* Image au sommet, fixe (sticky) — ratio 9/16 */}
       <div className="sticky top-[80px] z-10 flex justify-center">
-        <div className="w-full max-w-[520px] aspect-[9/16] rounded-3xl bg-[#F6EEE9] overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.07)]">
-          <img
-            src={heroImg}
-            alt="Maison Palacci"
-            className="w-full h-full object-contain"
-          />
-        </div>
-      </div>
+  <div className="w-full max-w-[900px] aspect-[3/4] rounded-3xl bg-[#F6EEE9] overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.07)]">
+    <img
+      src={heroImg}
+      alt="Maison Palacci"
+      className="w-full h-full object-contain"
+    />
+  </div>
+</div>
 
       {/* Contenu qui défile sous l'image */}
       <div className="mt-10 space-y-6">
