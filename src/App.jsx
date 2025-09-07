@@ -267,20 +267,25 @@ function Carousel() {
     <div className="relative select-none">
       {/* VUE PRINCIPALE — aucun ratio imposé, jamais rogné */}
       <div className="grid place-items-center">
-        <div
-          className="
-            rounded-3xl bg-[#F6EEE9] p-3 shadow-sm
-          "
-          style={{ maxHeight: "60vh" }} /* ~3/5 de page */
-        >
-          <img
-            src={current.src}
-            alt={current.alt || `Image ${index + 1}`}
-            className="block object-contain w-auto h-auto max-h-[60vh]"
-            style={{ maxWidth: "min(92vw, 720px)" }} /* large mais raisonnable */
-            loading="eager"
-          />
-        </div>
+     <div
+  className="
+    relative mx-auto
+    aspect-[3/4]                 /* Cadre toujours 3/4 */
+    max-h-[60vh]                  /* max 3/5 de la page */
+    w-full max-w-[720px]          /* largeur raisonnable */
+    bg-[#F6EEE9]                  /* fond rose */
+    border border-black/20        /* bordure fine */
+    rounded-2xl                   /* coins arrondis */
+    flex items-center justify-center
+  "
+>
+  <img
+    src={current.src}
+    alt={current.alt || `Image ${index + 1}`}
+    className="object-contain max-h-full max-w-full"
+    loading="eager"
+  />
+</div>
       </div>
 
       {/* Flèches */}
