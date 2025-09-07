@@ -264,7 +264,7 @@ function HistoireSection() {
       {/* Image au sommet, fixe (sticky) — ratio 9/16 */}
       <div className="sticky top-[80px] z-10 flex justify-center">
   <div className="sticky top-[80px] z-10 flex justify-center">
-  <div className="w-full max-w-[1000px] h-[50vh] rounded-3xl overflow-hidden bg-[#F6EEE9] shadow-lg">
+  <div className="w-full max-w-[1000px] h-[25vh] rounded-3xl overflow-hidden bg-[#F6EEE9] shadow-lg">
     <img
       src={heroImg}
       alt="Maison Palacci"
