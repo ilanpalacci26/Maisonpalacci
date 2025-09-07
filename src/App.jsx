@@ -107,6 +107,7 @@ function Header() {
   const links = [
     { href: `/#accueil`, label: "Accueil" },
     // la page galerie est la route /catalogue
+    {href:"/#notre-histoire", label: "Accueil"},
     { href: "/catalogue", label: "Galerie", route: true },
     { href: `/#formules`, label: "Nos formules" },
     { href: `/#recommandations`, label: "Avis" },
@@ -220,6 +221,123 @@ function Hero() {
 // Affiche toujours l'image entière, en s'adaptant au format (portrait/paysage)
 // Cadre uniforme (même taille/ratio) + image jamais rognée
 // Cadre uniforme (max 3/5 de la page) + image jamais rognée
+
+function OurStorySection() {
+  const STEPS = [
+    {
+      key: "paris",
+      title: "De Paris à Jérusalem",
+      text:
+        "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
+      img: "/story/dream1.jpg",
+    },
+    {
+      key: "vision",
+      title: "Tsniout, modernité, élégance",
+      text:
+        "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
+      img: "/story/dream2.jpg",
+    },
+    {
+      key: "atelier",
+      title: "L’atelier sur-mesure",
+      text:
+        "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
+      img: "/story/dream1.jpg",
+    },
+    {
+      key: "showroom",
+      title: "Un accueil sur rendez-vous",
+      text:
+        "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.\nL'équipe Maison Palacci",
+      img: "/story/deeam2.jpg",
+    },
+  ];
+
+  const [active, setActive] = React.useState(STEPS[0].key);
+  const refs = React.useRef({});
+
+  React.useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.dataset.key);
+        });
+      },
+      { rootMargin: "-30% 0px -50% 0px", threshold: 0.1 }
+    );
+    Object.values(refs.current).forEach((el) => el && io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const current = STEPS.find((s) => s.key === active) || STEPS[0];
+
+  return (
+    <section id="notre-histoire" className="bg-[#F6EEE9]">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24">
+        <h2 className="text-lg md:text-xl font-light tracking-[0.25em] uppercase mb-10 md:mb-14">
+          Notre histoire
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          {/* Colonne texte (défile) */}
+          <div>
+            {STEPS.map((s, i) => (
+              <article
+                key={s.key}
+                data-key={s.key}
+                ref={(el) => (refs.current[s.key] = el)}
+                className="
+                  mb-10 md:mb-16 last:mb-0
+                  bg-white/40 backdrop-blur-sm
+                  rounded-2xl p-5 md:p-6
+                "
+              >
+                <p className="text-xs tracking-[0.2em] uppercase text-black/60 mb-2">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="text-base md:text-lg font-normal tracking-wide">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm text-black/70 whitespace-pre-line leading-relaxed">
+                  {s.text}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          {/* Colonne image (sticky) */}
+          <div className="relative">
+            <div className="sticky top-24">
+              <div
+                className="
+                  mx-auto w-full
+                  aspect-[3/4] max-h-[60vh]
+                  rounded-3xl overflow-hidden
+                  bg-[#F6EEE9]
+                "
+              >
+                <img
+                  key={current.img}
+                  src={current.img}
+                  alt={current.title}
+                  className="w-full h-full object-contain animate-[fadeIn_400ms_ease]"
+                />
+              </div>
+              <p className="mt-3 text-xs text-black/50">{current.title}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes fadeIn { from {opacity:0; transform:translateY(4px)} to {opacity:1; transform:none} }
+      `}</style>
+    </section>
+  );
+}
+
+
 function SmartImage({ src, alt, eager = false }) {
   return (
     <div
@@ -641,6 +759,7 @@ function OnePageApp() {
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
       <Hero />
+      <OurStorySection />
       <CatalogueSection />
       <FormulesSection />
       <RecommandationsSection />
