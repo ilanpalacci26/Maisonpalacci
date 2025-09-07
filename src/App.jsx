@@ -235,28 +235,28 @@ function HistoireSection() {
       title: "De Paris à Jérusalem",
       text:
         "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
-      img: "/galerie/Dream3.jpeg",
+      img: "/galerie/Ocean2.jpeg",
       caption: "De Paris à Jérusalem",
     },
     {
       title: "Tsniout, modernité, élégance",
       text:
         "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
-      img: "/galerie/Purple1.jpeg",
+      img: "/galerie/Ocean2.jpeg",
       caption: "Élégance contemporaine",
     },
     {
       title: "L’atelier sur-mesure",
       text:
         "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
-      img: "/galerie/Dream2.jpeg",
+      img: "/galerie/Ocean2.jpeg",
       caption: "Atelier sur-mesure",
     },
     {
       title: "Un accueil sur rendez-vous",
       text:
         "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.",
-      img: "/galerie/Ocean1.jpeg",
+      img: "/galerie/Ocean2.jpeg",
       caption: "Showroom Maison Palacci",
     },
   ];
