@@ -229,28 +229,28 @@ function OurStorySection() {
       title: "De Paris à Jérusalem",
       text:
         "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
-      img: "/story/dream1.jpg",
+      img: "/galerie/Dream3.jpeg",
     },
     {
       key: "vision",
       title: "Tsniout, modernité, élégance",
       text:
         "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
-      img: "/story/dream2.jpg",
+      img: "/galerie/Dream2.jpeg",
     },
     {
       key: "atelier",
       title: "L’atelier sur-mesure",
       text:
         "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
-      img: "/story/dream1.jpg",
+      img: "/galerie/Dream1.jpeg",
     },
     {
       key: "showroom",
       title: "Un accueil sur rendez-vous",
       text:
         "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.\nL'équipe Maison Palacci",
-      img: "/story/deeam2.jpg",
+      img: "/galerie/Dream3.jpeg.jpeg",
     },
   ];
 
@@ -279,7 +279,7 @@ function OurStorySection() {
           Notre histoire
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-8 md:gap-12">
           {/* Colonne texte (défile) */}
           <div>
             {STEPS.map((s, i) => (
