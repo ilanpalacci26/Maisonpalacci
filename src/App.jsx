@@ -315,7 +315,7 @@ function HistoireSection() {
     <section id="lamaison" className="max-w-6xl mx-auto px-4 py-16">
       <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-8">LA MAISON</h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-8">
         {/* Colonne texte */}
         <div className="space-y-6">
           {ETAPES.map((s, idx) => (
