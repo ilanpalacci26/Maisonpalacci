@@ -272,7 +272,7 @@ function Carousel() {
     relative mx-auto
     aspect-[3/4]                 /* cadre fixe 3:4 */
     max-h-[60vh]                 /* hauteur max */
-    w-full max-w-[720px]         /* largeur max */
+    w-full max-w-[40vh]         /* largeur max */
     bg-[#F6EEE9]                 /* fond rose */
     border border-black/20       /* bordure autour du cadre */
     rounded-2xl                  /* coins arrondis */
