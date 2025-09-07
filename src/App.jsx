@@ -791,7 +791,7 @@ function OnePageApp() {
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
       <Hero />
-      <<HistoireSection /> />
+      <HistoireSection />
       <CatalogueSection />
       <FormulesSection />
       <RecommandationsSection />
