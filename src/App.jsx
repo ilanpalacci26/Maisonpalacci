@@ -225,8 +225,11 @@ function Hero() {
 // =====================
 // La Maison — sticky + crossfade flou
 // =====================
+// =====================
+// La Maison — sticky + crossfade soyeux
+// =====================
 function HistoireSection() {
-  // Contenu + visuels (tes images)
+  // Contenu + visuels
   const ETAPES = [
     {
       title: "De Paris à Jérusalem",
@@ -258,23 +261,35 @@ function HistoireSection() {
     },
   ];
 
+  // Préchargement pour un premier affichage sans flash
+  React.useEffect(() => {
+    const imgs = [];
+    ETAPES.forEach((s) => {
+      const im = new Image();
+      im.src = s.img;
+      imgs.push(im);
+    });
+    return () => imgs.splice(0);
+  }, []);
+
+  // Refs & mixage
   const stepRefs = React.useRef([]);
   const [mix, setMix] = React.useState({ i: 0, t: 0 });
 
-  // Mesure continue (centre écran) → mélange progressif (super-fondu)
+  // Mesure continue (centre écran) → mélange progressif
   React.useEffect(() => {
     let raf;
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const viewportCenter = window.innerHeight / 2;
-
         const centers = stepRefs.current.map((el) => {
           if (!el) return Infinity;
           const r = el.getBoundingClientRect();
           return (r.top + r.bottom) / 2;
         });
 
+        // carte la plus proche du centre
         let closest = 0;
         let minDist = Infinity;
         centers.forEach((c, idx) => {
@@ -282,6 +297,7 @@ function HistoireSection() {
           if (d < minDist) (minDist = d), (closest = idx);
         });
 
+        // progression vers la suivante
         const next = Math.min(closest + 1, ETAPES.length - 1);
         const c0 = centers[closest];
         const c1 = centers[next];
@@ -304,72 +320,98 @@ function HistoireSection() {
     };
   }, []);
 
+  // Easing soyeux (smoothstep)
+  const ease = (t) => t * t * (3 - 2 * t);
+  const te = ease(mix.t);
+  const aE = 1 - te; // opacité image courante
+  const bE = te;     // opacité image suivante
+
   const curr = ETAPES[mix.i];
   const next = ETAPES[Math.min(mix.i + 1, ETAPES.length - 1)];
-  const a = 1 - mix.t; // opacité image courante
-  const b = mix.t;     // opacité image suivante
-  const blurCurr = `${(1 - a) * 6}px`;
-  const blurNext = `${(1 - b) * 6}px`;
 
   return (
     <section id="lamaison" className="max-w-6xl mx-auto px-4 py-16">
       <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-8">LA MAISON</h2>
 
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-8">
-        {/* Colonne texte */}
+      {/* 2 colonnes y compris sur mobile (image plus étroite) */}
+      <div className="grid grid-cols-[1fr_0.75fr] md:grid-cols-[1fr_1fr] gap-6 md:gap-8">
+        {/* Colonne texte (cartes légères) */}
         <div className="space-y-6">
           {ETAPES.map((s, idx) => (
             <div
               key={idx}
               ref={(el) => (stepRefs.current[idx] = el)}
-              className="rounded-2xl bg-white/50 backdrop-blur-sm shadow-sm p-5"
+              className="rounded-2xl bg-white/40 backdrop-blur-sm shadow-sm p-4 md:p-5"
             >
-              <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-3">
+              <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-2">
                 {String(idx + 1).padStart(2, "0")}
               </div>
-              <h3 className="text-base md:text-lg font-medium">{s.title}</h3>
-              <p className="mt-2 text-sm text-black/70 leading-relaxed">{s.text}</p>
+              <h3 className="text-[15px] md:text-lg font-normal tracking-wide">{s.title}</h3>
+              <p className="mt-2 text-[13px] md:text-sm leading-relaxed text-black/70">
+                {s.text}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Colonne image (sticky, centrée, image entière, fond rose, sans bord) */}
+        {/* Colonne image — sticky, cadre fixe, image entière, crossfade */}
         <div className="relative">
           <div className="sticky top-[10vh] h-[80vh] flex items-center justify-center">
-            <div className="relative w-[min(60vw,720px)] max-w-[720px] aspect-[3/4] rounded-3xl bg-[#F6EEE9] overflow-hidden">
+            <div className="relative w-[min(60vw,720px)] max-w-[720px] aspect-[3/4] rounded-3xl bg-[#F6EEE9] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+              {/* Image courante */}
               <img
                 key={curr.img + "-curr"}
                 src={curr.img}
                 alt={curr.caption}
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-contain no-motion"
                 style={{
-                  opacity: a,
-                  filter: `blur(${blurCurr})`,
-                  transition:"opacity 1000ms ease-in-out, filter 1000ms ease-in-out",
+                  opacity: aE,
+                  filter: `blur(${(1 - aE) * 4}px)`,
+                  transform: `translateY(${(1 - aE) * 6}px)`,
+                  transition:
+                    "opacity 1000ms cubic-bezier(.22,.61,.36,1), filter 1000ms cubic-bezier(.22,.61,.36,1), transform 1000ms cubic-bezier(.22,.61,.36,1)",
+                  willChange: "opacity, filter, transform",
                 }}
               />
+              {/* Image suivante */}
               <img
                 key={next.img + "-next"}
                 src={next.img}
                 alt={next.caption}
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-contain no-motion"
                 style={{
-                  opacity: b,
-                  filter: `blur(${blurNext})`,
-                  transition: "opacity 1000ms ease-in-out, filter 1000ms ease-in-out",
+                  opacity: bE,
+                  filter: `blur(${(1 - bE) * 4}px)`,
+                  transform: `translateY(${-(1 - bE) * 6}px)`,
+                  transition:
+                    "opacity 1000ms cubic-bezier(.22,.61,.36,1), filter 1000ms cubic-bezier(.22,.61,.36,1), transform 1000ms cubic-bezier(.22,.61,.36,1)",
+                  willChange: "opacity, filter, transform",
                 }}
               />
             </div>
           </div>
-          <p className="text-xs text-black/60 mt-2 text-center">
-            {mix.t < 0.5 ? curr.caption : next.caption}
+
+          {/* Légende en fondu doux */}
+          <p className="text-xs text-black/60 mt-2 text-center transition-opacity duration-700 ease-in-out">
+            {aE > 0.5 ? curr.caption : next.caption}
           </p>
         </div>
       </div>
+
+      {/* Respect des préférences d’accessibilité */}
+      <style>{`
+        @media (prefers-reduced-motion: reduce) {
+          .no-motion {
+            transition: none !important;
+            animation: none !important;
+            transform: none !important;
+            filter: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
-
 function SmartImage({ src, alt, eager = false }) {
   return (
     <div
