@@ -309,21 +309,18 @@ function OurStorySection() {
           {/* Colonne image (sticky) */}
           <div className="relative">
             <div className="sticky top-24">
-              <div
-                className="
-                  mx-auto w-full
-                  aspect-[3/4] max-h-[60vh]
-                  rounded-3xl overflow-hidden
-                  bg-[#F6EEE9]
-                "
-              >
-                <img
-                  key={current.img}
-                  src={current.img}
-                  alt={current.title}
-                  className="w-full h-full object-contain animate-[fadeIn_400ms_ease]"
-                />
-              </div>
+              {/* Image avec fondu */}
+<div className="aspect-[3/4] max-h-[60vh] rounded-3xl overflow-hidden bg-[#F6EEE9] relative">
+  <img
+    key={current.img} // déclenche le changement quand l’image change
+    src={current.img}
+    alt={current.title}
+    className="
+      absolute inset-0 w-full h-full object-contain
+      opacity-0 animate-fadeIn
+    "
+  />
+</div>
               <p className="mt-3 text-xs text-black/50">{current.title}</p>
             </div>
           </div>
