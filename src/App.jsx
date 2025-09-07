@@ -267,7 +267,7 @@ function HistoireSection() {
     <img
       src={heroImg}
       alt="Maison Palacci"
-      className="w-full h-full object-contain"
+      className="w-full h-full"
     />
   </div>
 </div>
