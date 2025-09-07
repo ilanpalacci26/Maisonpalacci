@@ -233,7 +233,7 @@ function Hero() {
 // =====================
 function HistoireSection() {
   // Texte (tu peux changer l'image "heroImg" si tu veux une autre)
-  const heroImg = "/galerie/Purple1.jpeg";
+  const heroImg = "/galerie/Ocean2.jpeg";
   const ETAPES = [
     {
       title: "De Paris à Jérusalem",
