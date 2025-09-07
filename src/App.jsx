@@ -228,190 +228,72 @@ function Hero() {
 // =====================
 // La Maison — sticky + crossfade soyeux
 // =====================
+// =====================
+// LA MAISON — image fixe en haut (9:16) + sections qui défilent
+// =====================
 function HistoireSection() {
-  // Contenu + visuels
+  // Texte (tu peux changer l'image "heroImg" si tu veux une autre)
+  const heroImg = "/galerie/Purple1.jpeg";
   const ETAPES = [
     {
       title: "De Paris à Jérusalem",
       text:
         "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
-      img: "/galerie/Ocean2.jpeg",
-      caption: "De Paris à Jérusalem",
     },
     {
       title: "Tsniout, modernité, élégance",
       text:
         "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
-      img: "/galerie/Ocean2.jpeg",
-      caption: "Élégance contemporaine",
     },
     {
       title: "L’atelier sur-mesure",
       text:
         "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
-      img: "/galerie/Ocean2.jpeg",
-      caption: "Atelier sur-mesure",
     },
     {
       title: "Un accueil sur rendez-vous",
       text:
         "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.",
-      img: "/galerie/Ocean2.jpeg",
-      caption: "Showroom Maison Palacci",
     },
   ];
 
-  // Préchargement pour un premier affichage sans flash
-  React.useEffect(() => {
-    const imgs = [];
-    ETAPES.forEach((s) => {
-      const im = new Image();
-      im.src = s.img;
-      imgs.push(im);
-    });
-    return () => imgs.splice(0);
-  }, []);
-
-  // Refs & mixage
-  const stepRefs = React.useRef([]);
-  const [mix, setMix] = React.useState({ i: 0, t: 0 });
-
-  // Mesure continue (centre écran) → mélange progressif
-  React.useEffect(() => {
-    let raf;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const viewportCenter = window.innerHeight / 2;
-        const centers = stepRefs.current.map((el) => {
-          if (!el) return Infinity;
-          const r = el.getBoundingClientRect();
-          return (r.top + r.bottom) / 2;
-        });
-
-        // carte la plus proche du centre
-        let closest = 0;
-        let minDist = Infinity;
-        centers.forEach((c, idx) => {
-          const d = Math.abs(c - viewportCenter);
-          if (d < minDist) (minDist = d), (closest = idx);
-        });
-
-        // progression vers la suivante
-        const next = Math.min(closest + 1, ETAPES.length - 1);
-        const c0 = centers[closest];
-        const c1 = centers[next];
-        let t = 0;
-        if (next !== closest) {
-          const span = Math.max(1, Math.abs(c1 - c0));
-          t = Math.min(1, Math.max(0, (viewportCenter - Math.min(c0, c1)) / span));
-        }
-        setMix({ i: closest, t });
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  // Easing soyeux (smoothstep)
-  const ease = (t) => t * t * (3 - 2 * t);
-  const te = ease(mix.t);
-  const aE = 1 - te; // opacité image courante
-  const bE = te;     // opacité image suivante
-
-  const curr = ETAPES[mix.i];
-  const next = ETAPES[Math.min(mix.i + 1, ETAPES.length - 1)];
-
   return (
-    <section id="lamaison" className="max-w-6xl mx-auto px-4 py-16">
+    <section id="maison" className="max-w-6xl mx-auto px-4 py-16">
       <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-8">LA MAISON</h2>
 
-      {/* 2 colonnes y compris sur mobile (image plus étroite) */}
-      <div className="grid grid-cols-[1fr_0.75fr] md:grid-cols-[1fr_1fr] gap-6 md:gap-8">
-        {/* Colonne texte (cartes légères) */}
-        <div className="space-y-6">
-          {ETAPES.map((s, idx) => (
-            <div
-              key={idx}
-              ref={(el) => (stepRefs.current[idx] = el)}
-              className="rounded-2xl bg-white/40 backdrop-blur-sm shadow-sm p-4 md:p-5"
-            >
-              <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-2">
-                {String(idx + 1).padStart(2, "0")}
-              </div>
-              <h3 className="text-[15px] md:text-lg font-normal tracking-wide">{s.title}</h3>
-              <p className="mt-2 text-[13px] md:text-sm leading-relaxed text-black/70">
-                {s.text}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Colonne image — sticky, cadre fixe, image entière, crossfade */}
-        <div className="relative">
-          <div className="sticky top-[10vh] h-[80vh] flex items-center justify-center">
-            <div className="relative w-[min(60vw,720px)] max-w-[720px] aspect-[3/4] rounded-3xl bg-[#F6EEE9] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-              {/* Image courante */}
-              <img
-                key={curr.img + "-curr"}
-                src={curr.img}
-                alt={curr.caption}
-                className="absolute inset-0 w-full h-full object-contain no-motion"
-                style={{
-                  opacity: aE,
-                  filter: `blur(${(1 - aE) * 4}px)`,
-                  transform: `translateY(${(1 - aE) * 6}px)`,
-                  transition:
-                    "opacity 1000ms cubic-bezier(.22,.61,.36,1), filter 1000ms cubic-bezier(.22,.61,.36,1), transform 1000ms cubic-bezier(.22,.61,.36,1)",
-                  willChange: "opacity, filter, transform",
-                }}
-              />
-              {/* Image suivante */}
-              <img
-                key={next.img + "-next"}
-                src={next.img}
-                alt={next.caption}
-                className="absolute inset-0 w-full h-full object-contain no-motion"
-                style={{
-                  opacity: bE,
-                  filter: `blur(${(1 - bE) * 4}px)`,
-                  transform: `translateY(${-(1 - bE) * 6}px)`,
-                  transition:
-                    "opacity 1000ms cubic-bezier(.22,.61,.36,1), filter 1000ms cubic-bezier(.22,.61,.36,1), transform 1000ms cubic-bezier(.22,.61,.36,1)",
-                  willChange: "opacity, filter, transform",
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Légende en fondu doux */}
-          <p className="text-xs text-black/60 mt-2 text-center transition-opacity duration-700 ease-in-out">
-            {aE > 0.5 ? curr.caption : next.caption}
-          </p>
+      {/* Image au sommet, fixe (sticky) — ratio 9/16 */}
+      <div className="sticky top-[80px] z-10 flex justify-center">
+        <div className="w-full max-w-[520px] aspect-[9/16] rounded-3xl bg-[#F6EEE9] overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.07)]">
+          <img
+            src={heroImg}
+            alt="Maison Palacci"
+            className="w-full h-full object-contain"
+          />
         </div>
       </div>
 
-      {/* Respect des préférences d’accessibilité */}
-      <style>{`
-        @media (prefers-reduced-motion: reduce) {
-          .no-motion {
-            transition: none !important;
-            animation: none !important;
-            transform: none !important;
-            filter: none !important;
-          }
-        }
-      `}</style>
+      {/* Contenu qui défile sous l'image */}
+      <div className="mt-10 space-y-6">
+        {ETAPES.map((s, idx) => (
+          <article
+            key={idx}
+            className="rounded-2xl bg-white/55 backdrop-blur-sm shadow-sm p-5"
+          >
+            <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-3">
+              {String(idx + 1).padStart(2, "0")}
+            </div>
+            <h3 className="text-base md:text-lg font-medium">{s.title}</h3>
+            <p className="mt-2 text-sm text-black/70 leading-relaxed">
+              {s.text}
+            </p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
+
+
 function SmartImage({ src, alt, eager = false }) {
   return (
     <div
