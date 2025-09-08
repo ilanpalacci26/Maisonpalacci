@@ -232,69 +232,117 @@ function Hero() {
 // LA MAISON — image fixe en haut (9:16) + sections qui défilent
 // =====================
 function HistoireSection() {
-  // Texte (tu peux changer l'image "heroImg" si tu veux une autre)
-  const heroImg = "/galerie/Ocean2.jpeg";
+  // =====================
+// LA MAISON — image sticky + fond opaque (pas de relief)
+// =====================
   const ETAPES = [
     {
       title: "De Paris à Jérusalem",
       text:
         "Après avoir travaillé dans des maisons de couture parisiennes, Maison Palacci s'installe en Israël. Chez Maison Palacci, nous rendons hommage, ici à Jérusalem, au savoir-faire artisanal et à l'excellence de la confection française.",
+      img: "/galerie/Ocean2.jpeg",
     },
     {
       title: "Tsniout, modernité, élégance",
       text:
         "Nous voulons offrir aux femmes des créations tsniouts, modernes et élégantes, pensées pour les grands moments de leur vie.",
+      img: "/galerie/Ocean2.jpeg",
     },
     {
       title: "L’atelier sur-mesure",
       text:
         "Dans notre atelier, chaque robe est conçue avec un souci de perfection et de professionnalisme afin de répondre au mieux à vos attentes. Chacun de nos modèles est unique, pensé et réalisé sur mesure pour révéler l’élégance et la singularité de chaque cliente.",
+      img: "/galerie/Ocean2.jpeg",
     },
     {
       title: "Un accueil sur rendez-vous",
       text:
         "Nous serons heureux de vous accueillir dans notre showroom afin de vous accompagner durant cette expérience.",
+      img: "/galerie/Ocean2.jpeg",
     },
   ];
 
+  // image affichée (on mélange doucement selon le scroll si tu veux)
+  const [i, setI] = React.useState(0);
+
+  // met à jour l’image selon la carte la plus proche du haut
+  const refs = React.useRef([]);
+  React.useEffect(() => {
+    const onScroll = () => {
+      const top = 120; // seuil sous le header
+      let active = 0;
+      refs.current.forEach((el, idx) => {
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        if (r.top - top < 0) active = idx;
+      });
+      setI(active);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <section id="maison" className="max-w-6xl mx-auto px-4 py-16">
-      <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-8">LA MAISON</h2>
+    <section id="histoire" className="max-w-6xl mx-auto px-4 py-14">
+      <h2 className="text-xl md:text-2xl tracking-[0.15em] mb-6">LA MAISON</h2>
 
-      {/* Image au sommet, fixe (sticky) — ratio 9/16 */}
-      <div className="sticky top-[80px] z-10 flex justify-center">
-  <div className="sticky top-[80px] z-10 flex justify-center">
-  <div className="w-full max-w-[1000px] h-[25vh] rounded-3xl overflow-hidden bg-[#F6EEE9] shadow-lg">
-    <img
-      src={heroImg}
-      alt="Maison Palacci"
-      className="w-full h-full object-cover"
-    />
-  </div>
-</div>
-</div>
+      {/* BLOC IMAGE STICKY */}
+      <div
+        className="
+          sticky top-[84px] z-20
+          bg-[#F6EEE9]               /* FOND OPAQUE => le texte est masqué dessous */
+          -mx-4 px-4 pt-3 pb-6       /* étire le fond jusqu'aux bords pour être sûr de couvrir */
+        "
+      >
+        <div className="mx-auto max-w-5xl">
+          <div
+            className="
+              aspect-[16/9] w-full
+              rounded-3xl overflow-hidden
+              bg-[#F6EEE9] shadow-none ring-0 border-0  /* PAS DE RELIEF */
+            "
+          >
+            <img
+              src={ETAPES[i].img}
+              alt=""
+              className="w-full h-full object-cover select-none"
+              draggable={false}
+              style={{
+                transition: "transform 600ms cubic-bezier(.22,.61,.36,1), opacity 400ms ease",
+                transform: "scale(1.01)", // léger « souffle » discret
+              }}
+            />
+          </div>
+        </div>
+      </div>
 
-      {/* Contenu qui défile sous l'image */}
-      <div className="mt-10 space-y-6">
+      {/* TEXTE — passe dessous, mais invisible car l’image au-dessus a un fond opaque */}
+      <div className="relative z-10 mt-6 space-y-4">
         {ETAPES.map((s, idx) => (
           <article
             key={idx}
-            className="rounded-2xl bg-white/55 backdrop-blur-sm shadow-sm p-5"
+            ref={(el) => (refs.current[idx] = el)}
+            className="
+              rounded-2xl bg-white/60 backdrop-blur
+              p-5 md:p-6 leading-relaxed text-black/80
+            "
           >
-            <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-3">
+            <div className="text-[11px] tracking-[0.35em] uppercase text-black/50 mb-2">
               {String(idx + 1).padStart(2, "0")}
             </div>
-            <h3 className="text-base md:text-lg font-medium">{s.title}</h3>
-            <p className="mt-2 text-sm text-black/70 leading-relaxed">
-              {s.text}
-            </p>
+            <h3 className="text-base md:text-lg">{s.title}</h3>
+            <p className="mt-2 text-sm">{s.text}</p>
           </article>
         ))}
       </div>
     </section>
   );
 }
-
 
 function SmartImage({ src, alt, eager = false }) {
   return (
