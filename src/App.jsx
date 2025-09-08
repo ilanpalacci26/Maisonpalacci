@@ -320,92 +320,97 @@ function SmartImage({ src, alt, eager = false }) {
   );
 }
 function Carousel() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = React.useState(0);
   const total = CATALOG_IMAGES.length;
 
-  const go   = (i) => setIndex((i + total) % total);
+  // Avance / recule avec wrap
+  const go = (i) => setIndex((i + total) % total);
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
-  const current = CATALOG_IMAGES[index];
-
-  // Navigation clavier (← →)
-  React.useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [index]);
+  // Décalage relatif
+  const deltaOf = (i) => {
+    const raw = i - index;
+    if (raw > total / 2) return raw - total;
+    if (raw < -total / 2) return raw + total;
+    return raw;
+  };
 
   return (
-    <div className="relative select-none">
-      {/* VUE PRINCIPALE — aucun ratio imposé, jamais rogné */}
-      <div className="grid place-items-center">
-     <div
-  className="
-    relative mx-auto
-    aspect-[3/4]                 /* cadre fixe 3:4 */
-    max-h-[60vh]                 /* hauteur max */
-    w-full max-w-[40vh]         /* largeur max */
-    bg-[#F6EEE9]                 /* fond rose */
-    border border-black/20       /* bordure autour du cadre */
-    rounded-2xl                  /* coins arrondis */
-    overflow-hidden              /* tout reste dans le cadre */
-    flex items-center justify-center
-  "
->
-  <img
-    src={current.src}
-    alt={current.alt || `Image ${index + 1}`}
-    className="object-contain w-full h-full"
-    loading="eager"
-  />
-</div>
+    <div className="relative w-full">
+      {/* Zone d’affichage fixée à 2/7 de la hauteur */}
+      <div className="relative h-[28.57vh] flex items-center justify-center overflow-visible">
+        {CATALOG_IMAGES.map((img, i) => {
+          const d = deltaOf(i);
+
+          // Placement + opacité
+          const x = d * 60; // décalage horizontal
+          const scale = 1 - Math.abs(d) * 0.15;
+          const opacity = Math.abs(d) > 2 ? 0 : 1 - Math.abs(d) * 0.3;
+          const z = 10 - Math.abs(d);
+          const pointer = d === 0 ? "auto" : "none";
+
+          return (
+            <div
+              key={i}
+              className="absolute top-1/2 left-1/2"
+              style={{
+                transform: `translate(-50%, -50%) translateX(${x}%) scale(${scale})`,
+                transition:
+                  "transform 420ms cubic-bezier(.22,.61,.36,1), opacity 420ms ease",
+                opacity,
+                zIndex: z,
+                pointerEvents: pointer,
+              }}
+              aria-hidden={d !== 0}
+            >
+              {/* Cadre image */}
+              <div className="w-[min(92vw,820px)] max-w-[820px] h-full rounded-3xl bg-[#F6EEE9] flex items-center justify-center">
+                <img
+                  src={img.src}
+                  alt={img.alt || `Image ${i + 1}`}
+                  className="max-h-full max-w-full object-contain"
+                  draggable={false}
+                  loading={i === index ? "eager" : "lazy"}
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Flèches */}
       <button
-        onClick={prev}
         aria-label="Précédent"
-        className="
-          absolute left-3 top-1/2 -translate-y-1/2
-          h-10 w-10 rounded-full grid place-items-center
-          bg-black/60 text-white hover:bg-black/70
-        "
+        onClick={prev}
+        className="absolute left-2 top-1/2 -translate-y-1/2 px-3 py-2 rounded-full bg-black/70 text-white hover:bg-black transition"
       >
         ‹
       </button>
       <button
-        onClick={next}
         aria-label="Suivant"
-        className="
-          absolute right-3 top-1/2 -translate-y-1/2
-          h-10 w-10 rounded-full grid place-items-center
-          bg-black/60 text-white hover:bg-black/70
-        "
+        onClick={next}
+        className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-2 rounded-full bg-black/70 text-white hover:bg-black transition"
       >
         ›
       </button>
 
-      {/* Puces */}
-      <div className="mt-4 flex items-center justify-center gap-2">
+      {/* Bullets */}
+      <div className="flex justify-center gap-2 mt-4">
         {CATALOG_IMAGES.map((_, i) => (
           <button
             key={i}
             onClick={() => go(i)}
             aria-label={`Aller à l’image ${i + 1}`}
-            className={`h-2.5 w-2.5 rounded-full transition
-              ${i === index ? "bg-black" : "bg-black/30"}`}
+            className={`h-2.5 w-2.5 rounded-full transition ${
+              i === index ? "bg-black" : "bg-black/30"
+            }`}
           />
         ))}
       </div>
     </div>
   );
 }
-
-
 
 // =====================
 // Sections
