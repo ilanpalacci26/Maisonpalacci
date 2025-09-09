@@ -112,6 +112,20 @@ function Header() {
     { href: "/#contact",       label: "Contact" },
   ];
 
+  // Bloque le scroll quand le panneau est ouvert
+  React.useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = open ? "hidden" : prev || "";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
+  // Fermer sur ESC
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -119,11 +133,12 @@ function Header() {
           MAISON PALACCI
         </Link>
 
-        {/* NAV desktop seulement à partir de lg */}
+        {/* Nav desktop seulement à partir de lg */}
         <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm text-black">
           {links.map((l) =>
             l.href.startsWith("/catalogue") ? (
-              <Link key={l.label} to={l.href} className={isCatalogue ? "opacity-70 whitespace-nowrap" : "hover:opacity-70 whitespace-nowrap"}>
+              <Link key={l.label} to={l.href}
+                    className={(isCatalogue ? "opacity-70 " : "hover:opacity-70 ") + "whitespace-nowrap"}>
                 {l.label}
               </Link>
             ) : (
@@ -134,35 +149,75 @@ function Header() {
           )}
         </nav>
 
-        {/* Burger visible jusqu'à lg */}
+        {/* Burger visible < lg */}
         <button
           className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
+          onClick={() => setOpen(true)}
+          aria-label="Ouvrir le menu"
           aria-expanded={open}
+          aria-controls="mobile-drawer"
         >
           <span className="text-2xl leading-none">≡</span>
         </button>
       </div>
 
-      {/* Menu mobile */}
-      {open && (
-        <div className="lg:hidden border-t border-black/5 bg-[#F6EEE9]">
-          <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-black">
+      {/* === Drawer mobile (slide-in right + overlay fade) === */}
+      {/* Overlay */}
+      <div
+        aria-hidden={!open}
+        className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300
+                    ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setOpen(false)}
+      >
+        <div className="absolute inset-0 bg-black/30"></div>
+
+        {/* Panneau */}
+        <aside
+          id="mobile-drawer"
+          role="dialog"
+          aria-modal="true"
+          className={`ml-auto h-full w-[78vw] max-w-[360px] bg-[#F6EEE9] border-l border-black/10
+                      shadow-xl transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)]
+                      ${open ? "translate-x-0" : "translate-x-full"}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="h-14 flex items-center justify-between px-4 border-b border-black/10">
+            <span className="text-sm tracking-[0.2em] text-black/80">MENU</span>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Fermer"
+              className="w-10 h-10 grid place-items-center rounded-lg border border-black/10"
+            >
+              ×
+            </button>
+          </div>
+
+          <nav className="px-4 py-3 flex flex-col text-black">
             {links.map((l) =>
               l.href.startsWith("/catalogue") ? (
-                <Link key={l.label} to={l.href} className="py-1" onClick={() => setOpen(false)}>
+                <Link
+                  key={l.label}
+                  to={l.href}
+                  className="py-3 text-base border-b border-black/10 hover:opacity-70"
+                  onClick={() => setOpen(false)}
+                >
                   {l.label}
                 </Link>
               ) : (
-                <a key={l.label} href={l.href} className="py-1" onClick={() => setOpen(false)}>
+                <a
+                  key={l.label}
+                  href={l.href}
+                  className="py-3 text-base border-b border-black/10 hover:opacity-70"
+                  onClick={() => setOpen(false)}
+                >
                   {l.label}
                 </a>
               )
             )}
           </nav>
-        </div>
-      )}
+        </aside>
+      </div>
+      {/* === /Drawer === */}
     </header>
   );
 }
