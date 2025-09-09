@@ -100,60 +100,57 @@ function Card({ children }) {
 function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-
-  // si on est sur specialis, on doit renvoyer vers "/#section"
-  const base = pathname === "/catalogue" ? "/#" : "#";
+  const isCatalogue = pathname === "/catalogue";
 
   const links = [
-    { href: `/#accueil`, label: "Accueil" },
-    // la page galerie est la route /catalogue
- { href: "#lamaison", label: "La Maison" },
-    { href: "/catalogue", label: "Galerie", route: true },
-    { href: `/#formules`, label: "Nos formules" },
-    { href: `/#recommandations`, label: "Avis" },
-    { href: `/#rendezvous`, label: "Prendre rendez-vous" },
-    { href: `/#contact`, label: "Contact" },
+    { href: "/#accueil",       label: "Accueil" },
+    { href: "/#lamaison",      label: "La Maison" },
+    { href: "/catalogue",      label: "Galerie" },
+    { href: "/#formules",      label: "Nos formules" },
+    { href: "/#recommandations", label: "Avis" },
+    { href: "/#rendezvous",    label: "Prendre rendez-vous" },
+    { href: "/#contact",       label: "Contact" },
   ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        {/* Logo renvoie toujours à la home */}
         <Link to="/" className="text-xl md:text-2xl font-normal text-black tracking-[0.15em]">
           MAISON PALACCI
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-black">
+        {/* NAV desktop seulement à partir de lg */}
+        <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm text-black">
           {links.map((l) =>
-            l.route ? (
-              <Link key={l.label} to={l.href} className="hover:opacity-70">
+            l.href.startsWith("/catalogue") ? (
+              <Link key={l.label} to={l.href} className={isCatalogue ? "opacity-70 whitespace-nowrap" : "hover:opacity-70 whitespace-nowrap"}>
                 {l.label}
               </Link>
             ) : (
-              <a key={l.label} href={l.href} className="hover:opacity-70">
+              <a key={l.label} href={l.href} className="hover:opacity-70 whitespace-nowrap">
                 {l.label}
               </a>
             )
           )}
         </nav>
 
-        {/* Burger (mobile) */}
+        {/* Burger visible jusqu'à lg */}
         <button
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
+          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
+          aria-expanded={open}
         >
           <span className="text-2xl leading-none">≡</span>
         </button>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Menu mobile */}
       {open && (
-        <div className="md:hidden border-t border-black/5 bg-[#F6EEE9]">
+        <div className="lg:hidden border-t border-black/5 bg-[#F6EEE9]">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-black">
             {links.map((l) =>
-              l.route ? (
+              l.href.startsWith("/catalogue") ? (
                 <Link key={l.label} to={l.href} className="py-1" onClick={() => setOpen(false)}>
                   {l.label}
                 </Link>
@@ -302,7 +299,7 @@ function HistoireSection() {
         <div className="mx-auto max-w-5xl">
           <div
             className="
-              aspect-[16/3] w-full
+              aspect-[13/4]
               rounded-3xl overflow-hidden
               bg-[#F6EEE9] shadow-none ring-0 border-0  /* PAS DE RELIEF */
             "
