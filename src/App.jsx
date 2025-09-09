@@ -103,23 +103,23 @@ function Header() {
   const isCatalogue = pathname === "/catalogue";
 
   const links = [
-    { href: "/#accueil",       label: "Accueil" },
-    { href: "/#lamaison",      label: "La Maison" },
-    { href: "/catalogue",      label: "Galerie" },
-    { href: "/#formules",      label: "Nos formules" },
+    { href: "/#accueil",         label: "Accueil" },
+    { href: "/#lamaison",        label: "La Maison" },
+    { href: "/catalogue",        label: "Galerie" },
+    { href: "/#formules",        label: "Nos formules" },
     { href: "/#recommandations", label: "Avis" },
-    { href: "/#rendezvous",    label: "Prendre rendez-vous" },
-    { href: "/#contact",       label: "Contact" },
+    { href: "/#rendezvous",      label: "Prendre rendez-vous" },
+    { href: "/#contact",         label: "Contact" },
   ];
 
-  // Bloque le scroll quand le panneau est ouvert
+  // Bloque le scroll quand le menu est ouvert
   React.useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = open ? "hidden" : prev || "";
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  // Fermer sur ESC
+  // Fermer avec ESC
   React.useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
@@ -133,12 +133,12 @@ function Header() {
           MAISON PALACCI
         </Link>
 
-        {/* Nav desktop seulement à partir de lg */}
+        {/* Nav desktop */}
         <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm text-black">
           {links.map((l) =>
             l.href.startsWith("/catalogue") ? (
               <Link key={l.label} to={l.href}
-                    className={(isCatalogue ? "opacity-70 " : "hover:opacity-70 ") + "whitespace-nowrap"}>
+                className={(isCatalogue ? "opacity-70 " : "hover:opacity-70 ") + "whitespace-nowrap"}>
                 {l.label}
               </Link>
             ) : (
@@ -149,40 +149,32 @@ function Header() {
           )}
         </nav>
 
-        {/* Burger visible < lg */}
+        {/* Burger mobile */}
         <button
           className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
           onClick={() => setOpen(true)}
           aria-label="Ouvrir le menu"
-          aria-expanded={open}
-          aria-controls="mobile-drawer"
         >
           <span className="text-2xl leading-none">≡</span>
         </button>
       </div>
 
-      {/* === Drawer mobile (slide-in right + overlay fade) === */}
-      {/* Overlay */}
+      {/* === Drawer mobile 1/4 largeur === */}
       <div
-        aria-hidden={!open}
-        className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300
-                    ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-        onClick={() => setOpen(false)}
+        className={`lg:hidden fixed inset-0 z-50 transition duration-300 ease-[cubic-bezier(.22,.61,.36,1)] 
+                   ${open ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="absolute inset-0 bg-black/30"></div>
+        {/* Overlay semi-transparent */}
+        <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
 
-        {/* Panneau */}
+        {/* Panneau (1/4 largeur, 100% hauteur, à droite) */}
         <aside
-          id="mobile-drawer"
-          role="dialog"
-          aria-modal="true"
-          className={`ml-auto h-full w-[78vw] max-w-[360px] bg-[#F6EEE9] border-l border-black/10
-                      shadow-xl transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)]
-                      ${open ? "translate-x-0" : "translate-x-full"}`}
-          onClick={(e) => e.stopPropagation()}
+          className="absolute right-0 top-0 h-full w-1/4 min-w-[260px] max-w-[400px]
+                     bg-[#F6EEE9] shadow-2xl flex flex-col"
         >
-          <div className="h-14 flex items-center justify-between px-4 border-b border-black/10">
-            <span className="text-sm tracking-[0.2em] text-black/80">MENU</span>
+          {/* Barre du haut */}
+          <div className="h-14 flex items-center justify-between px-4">
+            <span className="text-sm tracking-[0.2em] text-black/70">MENU</span>
             <button
               onClick={() => setOpen(false)}
               aria-label="Fermer"
@@ -192,13 +184,14 @@ function Header() {
             </button>
           </div>
 
-          <nav className="px-4 py-3 flex flex-col text-black">
+          {/* Liens */}
+          <nav className="flex-1 px-6 py-6 flex flex-col gap-4">
             {links.map((l) =>
               l.href.startsWith("/catalogue") ? (
                 <Link
                   key={l.label}
                   to={l.href}
-                  className="py-3 text-base border-b border-black/10 hover:opacity-70"
+                  className="text-lg text-black hover:opacity-70"
                   onClick={() => setOpen(false)}
                 >
                   {l.label}
@@ -207,7 +200,7 @@ function Header() {
                 <a
                   key={l.label}
                   href={l.href}
-                  className="py-3 text-base border-b border-black/10 hover:opacity-70"
+                  className="text-lg text-black hover:opacity-70"
                   onClick={() => setOpen(false)}
                 >
                   {l.label}
