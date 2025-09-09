@@ -302,7 +302,7 @@ function HistoireSection() {
         <div className="mx-auto max-w-5xl">
           <div
             className="
-              aspect-[16/9] w-full
+              aspect-[16/3] w-full
               rounded-3xl overflow-hidden
               bg-[#F6EEE9] shadow-none ring-0 border-0  /* PAS DE RELIEF */
             "
