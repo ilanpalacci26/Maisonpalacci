@@ -112,13 +112,6 @@ function Header() {
     { href: "/#contact",         label: "Contact" },
   ];
 
-  // Bloque le scroll quand le menu est ouvert
-  React.useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = open ? "hidden" : prev || "";
-    return () => { document.body.style.overflow = prev; };
-  }, [open]);
-
   // Fermer avec ESC
   React.useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
@@ -133,7 +126,7 @@ function Header() {
           MAISON PALACCI
         </Link>
 
-        {/* Nav desktop */}
+        {/* Nav desktop (seulement ≥ lg) */}
         <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm text-black">
           {links.map((l) =>
             l.href.startsWith("/catalogue") ? (
@@ -159,57 +152,64 @@ function Header() {
         </button>
       </div>
 
-      {/* === Drawer mobile 1/4 largeur === */}
-      <div
-        className={`lg:hidden fixed inset-0 z-50 transition duration-300 ease-[cubic-bezier(.22,.61,.36,1)] 
-                   ${open ? "translate-x-0" : "translate-x-full"}`}
+      {/* === Drawer 1/4 largeur, plein hauteur, SANS overlay === */}
+      <aside
+        role="dialog"
+        aria-modal="false"
+        aria-hidden={!open}
+        className={[
+          "fixed z-50",
+          "top-3 right-3 bottom-3",           // léger décollage du bord (comme ton encadré)
+          "w-[25vw] min-w-[280px] max-w-[420px]",
+          "bg-[#F6EEE9] rounded-2xl border border-black/10 shadow-2xl",
+          "transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)]",
+          open ? "translate-x-0" : "translate-x-[110%]" // slide depuis la droite
+        ].join(" ")}
       >
-        {/* Overlay semi-transparent */}
-        <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
+        {/* Barre haute */}
+        <div className="h-14 px-4 flex items-center justify-between">
+          <span className="text-sm tracking-[0.2em] text-black/70">MENU</span>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Fermer"
+            className="w-10 h-10 grid place-items-center rounded-lg border border-black/10"
+          >
+            ×
+          </button>
+        </div>
 
-        {/* Panneau (1/4 largeur, 100% hauteur, à droite) */}
-        <aside
-          className="absolute right-0 top-0 h-full w-1/4 min-w-[260px] max-w-[400px]
-                     bg-[#F6EEE9] shadow-2xl flex flex-col"
-        >
-          {/* Barre du haut */}
-          <div className="h-14 flex items-center justify-between px-4">
-            <span className="text-sm tracking-[0.2em] text-black/70">MENU</span>
-            <button
-              onClick={() => setOpen(false)}
-              aria-label="Fermer"
-              className="w-10 h-10 grid place-items-center rounded-lg border border-black/10"
-            >
-              ×
-            </button>
-          </div>
-
-          {/* Liens */}
-          <nav className="flex-1 px-6 py-6 flex flex-col gap-4">
+        {/* Liens (pas de séparateurs) */}
+        <nav className="px-6 py-4">
+          <ul className="flex flex-col gap-4">
             {links.map((l) =>
               l.href.startsWith("/catalogue") ? (
-                <Link
-                  key={l.label}
-                  to={l.href}
-                  className="text-lg text-black hover:opacity-70"
-                  onClick={() => setOpen(false)}
-                >
-                  {l.label}
-                </Link>
+                <li key={l.label}>
+                  <Link
+                    to={l.href}
+                    className="text-lg text-black hover:opacity-70"
+                    onClick={() => setOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                </li>
               ) : (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  className="text-lg text-black hover:opacity-70"
-                  onClick={() => setOpen(false)}
-                >
-                  {l.label}
-                </a>
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-lg text-black hover:opacity-70"
+                    onClick={() => setOpen(false)}
+                  >
+                    {l.label}
+                  </a>
+                </li>
               )
             )}
-          </nav>
-        </aside>
-      </div>
+          </ul>
+        </nav>
+      </aside>
+    </header>
+  );
+}
       {/* === /Drawer === */}
     </header>
   );
