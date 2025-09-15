@@ -103,7 +103,7 @@ function Header() {
     { href: "/", label: "Accueil" },
     { href: "/catalogue", label: "Galerie" },
     { href: "/lamaison", label: "La Maison" },
-    { href: "/formules", label: "Formules" },
+    { href: "/formules", label: "Nos Formules" },
   ];
 
   return (
