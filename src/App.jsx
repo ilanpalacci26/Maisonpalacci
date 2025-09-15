@@ -762,10 +762,7 @@ function OnePageApp() {
     <div className="text-gray-900 bg-[#F6EEE9]">   {/* <- ICI */}
       <Header />
       <Hero />
-      <HistoireSection />
-      <CatalogueSection />
       <FormulesSection />
-      <RecommandationsSection />
       <RendezVousSection />  
       <ContactSection />
       <Footer />
@@ -773,6 +770,44 @@ function OnePageApp() {
     </div>
   );
 }
+
+// --- Nouvelles pages réutilisant tes sections existantes ---
+
+function TwoPage() {
+  // Page 2 : Histoire + Avis
+  return (
+    <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
+      <Header />
+      {/* ancre optionnelle pour que les liens #histoire/#recommandations marchent aussi ici */}
+      <main>
+        <HistoireSection />
+        <RecommandationsSection />
+         <ContactSection />
+      </main>
+      <Footer />
+      <WhatsAppFab />
+    </div>
+  );
+}
+
+function ThreePage() {
+  // Page 3 : Formules + Prendre rendez-vous
+  return (
+    <div className="text-gray-900 bg-[#F6EEE9] min-h-screen">
+      <Header />
+      <main>
+        <FormulesSection />
+        <RendezVousSection />
+         <ContactSection />
+      </main>
+      <Footer />
+      <WhatsAppFab />
+    </div>
+  );
+}
+
+
+
 /* ===== Page /catalogue (grille tabloïdes, même style visuel) ===== */
 function CollectionsBar({ value, onChange }) {
   // Icônes minimalistes (SVG inline)
@@ -824,6 +859,7 @@ function CollectionsBar({ value, onChange }) {
     </div>
   );
 }
+
 /* ===== Page /catalogue avec Lightbox ===== */
 function CataloguePage() {
   const [cat, setCat] = useState("all");
@@ -904,12 +940,22 @@ function CataloguePage() {
 }
 
 /* ===== Router : on sert ta one-page à "/" et la nouvelle page à "/catalogue" ===== */
+
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<OnePageApp />} />
       <Route path="/catalogue" element={<CataloguePage />} />
+
+      {/* nouvelles routes */}
+      <Route path="/twopage" element={<TwoPage />} />
+      <Route path="/page3"   element={<ThreePage />} />
+
+      {/* fallback */}
       <Route path="*" element={<OnePageApp />} />
     </Routes>
   );
 }
+
+
+
