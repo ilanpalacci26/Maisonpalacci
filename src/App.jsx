@@ -99,47 +99,34 @@ function Card({ children }) {
 // =====================
 function Header() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
-  const isCatalogue = pathname === "/catalogue";
-
   const links = [
-    { href: "/#accueil",       label: "Accueil" },
-    { href: "/#lamaison",      label: "La Maison" },
-    { href: "/catalogue",      label: "Galerie" },
-    { href: "/#formules",      label: "Nos formules" },
-    { href: "/#recommandations", label: "Avis" },
-    { href: "/#rendezvous",    label: "Prendre rendez-vous" },
-    { href: "/#contact",       label: "Contact" },
+    { href: "/", label: "Accueil" },
+    { href: "/catalogue", label: "Galerie" },
+    { href: "/lamaison", label: "La Maison" },
+    { href: "/formules", label: "Formules" },
   ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-[#F6EEE9]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="text-xl md:text-2xl font-normal text-black tracking-[0.15em]">
+        <a href="/" className="text-xl md:text-2xl font-light tracking-[0.15em]">
           MAISON PALACCI
-        </Link>
+        </a>
 
-        {/* NAV desktop seulement à partir de lg */}
-        <nav className="hidden lg:flex items-center gap-4 lg:gap-6 text-sm text-black">
-          {links.map((l) =>
-            l.href.startsWith("/catalogue") ? (
-              <Link key={l.label} to={l.href} className={isCatalogue ? "opacity-70 whitespace-nowrap" : "hover:opacity-70 whitespace-nowrap"}>
-                {l.label}
-              </Link>
-            ) : (
-              <a key={l.label} href={l.href} className="hover:opacity-70 whitespace-nowrap">
-                {l.label}
-              </a>
-            )
-          )}
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm text-black">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="hover:opacity-70">
+              {l.label}
+            </a>
+          ))}
         </nav>
 
-        {/* Burger visible jusqu'à lg */}
+        {/* Burger menu mobile */}
         <button
-          className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-black/10"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
-          aria-expanded={open}
         >
           <span className="text-2xl leading-none">≡</span>
         </button>
@@ -147,25 +134,25 @@ function Header() {
 
       {/* Menu mobile */}
       {open && (
-        <div className="lg:hidden border-t border-black/5 bg-[#F6EEE9]">
+        <div className="md:hidden border-t border-black/5 bg-[#F6EEE9]">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-black">
-            {links.map((l) =>
-              l.href.startsWith("/catalogue") ? (
-                <Link key={l.label} to={l.href} className="py-1" onClick={() => setOpen(false)}>
-                  {l.label}
-                </Link>
-              ) : (
-                <a key={l.label} href={l.href} className="py-1" onClick={() => setOpen(false)}>
-                  {l.label}
-                </a>
-              )
-            )}
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="py-1"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
           </nav>
         </div>
       )}
     </header>
   );
 }
+       
 // =====================
 // Hero
 // =====================
@@ -948,8 +935,8 @@ export default function App() {
       <Route path="/catalogue" element={<CataloguePage />} />
 
       {/* nouvelles routes */}
-      <Route path="/twopage" element={<TwoPage />} />
-      <Route path="/page3"   element={<ThreePage />} />
+      <Route path="/lamaison" element={<TwoPage />} />
+      <Route path="/formules"   element={<ThreePage />} />
 
       {/* fallback */}
       <Route path="*" element={<OnePageApp />} />
